@@ -7,33 +7,132 @@
 \usepackage{amsmath}
 \usepackage{graphicx}
 \usepackage[colorlinks=true, allcolors=blue]{hyperref}
-\usepackage{natbib}
-\bibliographystyle{alpha}
 \usepackage{caption}
 \usepackage{float}
 \usepackage{csquotes}
 
-\title{Aprendizado Descritivo}
-\author{Luís Felipe Ramos Ferreira \\  Igor Lacerda iFaria da Silva \\ Matheus Tiago Pimenta de Souza}
+\title{Projeto Final de Aprendizado Descritivo}
+\author{Luís Felipe Ramos Ferreira \\  Igor Lacerda iFaria da Silva \\ Matheus
+    Tiago Pimenta de Souza}
+\date{}
 
 \begin{document}
 \maketitle
 
 \section{Introdução}
 
-O projeto final da disciplina de Aprendizado de Descritivo
+O uso de ciência de dados e estatística para analisar esportes é algo que vem
+crescendo cada vez mais nos últimos anos. Em
+particular, o futebol têm sido um desses
+esportes~\cite{takvorian2021beautiful}. A própria UFMG ofertou no
+ano passado e novamente neste semestre a disciplina `Ciência de Dados aplicada
+ao futebol', o que mostra a relevância do tema. Diversas empresas que atuam na
+área surgem a cada dia, e os times de futebol, no Brasil e no resto do
+mundo, estão investimento em seus departamentos de dados e estatística.
+
+Nesse sentido, nosso grupo optou por estudar e compreender melhor como funciona
+o uso de análises estatísticas no futebol, dado o interesse geral pelo esporte,
+e, para isso, nos propusemos a aplicar algoritmos de mineração de dados em
+dados futebolísticos, sendo eles dados de súmula, dados de eventos ou até mesmo
+dados de
+\textit{tracking} dos jogadores, para compreender como as informações acerca do
+jogo estão contidas dentro dos dados coletados e como isso pode ser utilizado a
+favor das equipes.
+
+Os dados de eventos, especialmente, costumam ser mais fáceis de lidar e mais
+fáceis de acessar do que dados de \textit{tracking}, enquanto trazem muito mais
+informações do que dados de súmula. Existem, atualmente, algumas bases
+gratuitas de dados de evento de partidas, disponibilizadas por diferentes
+empresas como \textit{Wyscout} e \textit{StasBomb}. Como a ideia é ter um
+panorama geral de diversas partidas, campeonatos e jogadores, iremos utilizar
+as bases de dados disponibilizadas sobre as 5 grandes ligas de futebol europeu
+das temporadas 17/18 da empresa \textit{Wyscout}.
+
+\subsection{Base de dados}
+
+As bases de dados utilizadas na ferramenta consistirá na base principal
+disponibilizada pela empresa \textit{Wyscout},
+consistindo em uma base de dados de evento das 5 grandes ligas europeias na
+temporada 17/18.
+
+Cada empresa fornecedora de dados possuem seu próprio formato de representação
+dos dados de evento. De modo a facilitar a mesclagem entre as bases de dados
+utilizadas, iremos converter os dados coletados para uma representação geral
+proposta por pesquisadores denominada
+\href{https://socceraction.readthedocs.io/en/latest/documentation/spadl/spadl.html}{SPADL}.
+A SPADL é uma boa escolha por ser uma representação concisa e fácil de
+utilizar. Ela é uma representação tabular de cada evento da partida, onde cada
+linha possui 12 colunas. A tabela abaixo ilustra o esquema de representação de
+um evento segundo o formato SPADL.
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|l|l|}
+        \hline
+        \textbf{Atributo} & \textbf{Descrição}
+        \\
+        \hline
+        game\_id          & O ID do jogo no qual a ação foi realizada
+        \\
+        \hline
+        period\_id        & O ID do período do jogo no qual a ação foi
+        realizada
+        \\
+        \hline
+        seconds           & O tempo de início da ação
+        \\
+        \hline
+        player            & O jogador que realizou a ação
+        \\
+        \hline
+        team              & O time do jogador
+        \\
+        \hline
+        start\_x          & A localização x onde a ação começou
+        \\
+        \hline
+        start\_y          & A localização y onde a ação começou
+        \\
+        \hline
+        end\_x            & A localização x onde a ação terminou
+        \\
+        \hline
+        end\_y            & A localização y onde a ação terminou
+        \\
+        \hline
+        action\_type      & O tipo de ação (por exemplo, passe, chute, drible)
+        \\
+        \hline
+        result            & O resultado da ação (por exemplo, sucesso ou falha)
+        \\
+        \hline
+        bodypart          & A parte do corpo do jogador usada para a ação
+        \\
+        \hline
+    \end{tabular}
+    \caption{Descrição dos dados no formato SPADL}
+\end{table}
 
 \section{Implementação}
 
 A linguagem escolhida para o desenvolvimento do trabalho foi
-\href{https://www.python.org/}{\texttt{Python}} (versão 3.10.12), devida a sua
-grande variedade de bibliotecas úteis para ciência de dados e aprendizado de
-máquina.
-A modelagem do algoritmo \textit{AdaBoost} foi feita com o uso de bibliotecas
-de análise numérica como \href{https://numpy.org/}{\texttt{NumPy}} e manipulação de \textit{dataframes} como
-\href{https://pola.rs/}{\texttt{Polars}},
+\href{https://www.python.org/}{\texttt{Python}} (versão 3.10.12), devida a seu
+vasto ecossistema para ciência de dados e mineração de dados.
+
+A manipulação dos dados foi feita com o uso de bibliotecas
+de análise numérica como \href{https://numpy.org/}{\texttt{NumPy}} e
+manipulação de \textit{dataframes} como
+\href{https://pola.rs/}{\texttt{Polars}} e
+\href{https://pandas.pydata.org/}{\texttt{Pandas}},
 uma vez que se tratam de ferramentas extremamente completas que facilitaram o
-desenvolvimento do algoritmo.
+desenvolvimento do projeto como um todo.
+
+Para aplicar os algoritmos de descobertas de subgrupos, foi utilizado o pacote
+\href{https://pysubgroup.readthedocs.io/en/latest/}{\texttt{pysubgroup}}, que
+fornece uma aglomeração de algoritmos do estado da arte de descoberta de
+subgrupos em um formato simples e leve para serem utilizados.
+
+% falar aq de uqal pacote utilizamos para minerar as sequencias
 
 Para organizar o ambiente de desenvolvimento, que englobava vários pacotes
 diferentes, foi utilizado o gerenciador de pacotes
@@ -45,15 +144,18 @@ como
 utilizar o que foi implementado estão descritas no arquivo \textit{README.md}
 do repositório.
 
-\subsection{Resultados}
+\section{Resultados}
+
+gfdfd
 
 \section{Conclusão}
 
+fefre
+
 \newpage
 \bibliographystyle{plain}
-\renewcommand{\refname}{Referências bibliográficas} 
-\addcontentsline{toc}{section}{Referências bibliográficas}
+\renewcommand{\refname}{Referências Bibliográficas}
+\addcontentsline{toc}{section}{Referências Bibliográficas}
 \bibliography{sample}
-
 
 \end{document}
