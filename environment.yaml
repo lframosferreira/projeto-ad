@@ -87,7 +87,6 @@ dependencies:
   - pcre2=10.42
   - pexpect=4.8.0
   - pillow=10.3.0
-  - pip=23.3.1
   - platformdirs=3.10.0
   - ply=3.11
   - prompt-toolkit=3.0.43
@@ -127,21 +126,25 @@ dependencies:
   - zstd=1.5.5
   - pip:
       - annotated-types==0.6.0
+      - bitarray==2.6.0
+      - bitmap==0.0.7
+      - future==0.18.2
       - joblib==1.4.2
       - lxml==4.9.4
       - matplotsoccer==0.0.8
       - multimethod==1.11.2
       - mypy-extensions==1.0.0
       - pandera==0.17.2
+      - pip==24.0
       - pydantic==2.7.1
       - pydantic-core==2.18.2
       - pysubgroup==0.8.0
       - scikit-learn==1.4.2
       - scipy==1.13.0
+      - sequence-mining==0.0.3
       - socceraction==1.5.1
       - threadpoolctl==3.5.0
       - typeguard==4.2.1
       - typing-extensions==4.11.0
       - typing-inspect==0.9.0
       - wrapt==1.16.0
-prefix: /home/lfrf/anaconda3/envs/projeto-ad
