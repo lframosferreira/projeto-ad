@@ -13,7 +13,7 @@ import numpy as np
 
 # constants
 
-PATH: str = "../data/spadl_format/"
+PATH: str = "data/spadl_format/"
 RANDOM_STATE: int = 42
 
 

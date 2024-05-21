@@ -84,18 +84,18 @@ events = {}
 matches = {}
 minutes = {}
 for league in leagues:
-    path = f"../data/wyscout/matches/matches_{league}.json"
+    path = f"data/wyscout/matches/matches_{league}.json"
     matches[league] = load_matches(path)
-    path = f"../data/wyscout/events/events_{league}.json"
+    path = f"data/wyscout/events/events_{league}.json"
     events[league] = load_events(path)
-    path = f"../data/wyscout/minutes_played/minutes_played_per_game_{league}.json"
+    path = f"data/wyscout/minutes_played/minutes_played_per_game_{league}.json"
     minutes[league] = load_minutes_played_per_game(path)
 
 
 # In[14]:
 
 
-path = "../data/wyscout/players/players.json"
+path = "data/wyscout/players/players.json"
 players = load_players(path)
 players["player_name"] = players["player_name"].str.decode("unicode-escape")
 
@@ -123,15 +123,15 @@ def spadl_transform(events, matches):
 # In[16]:
 
 
-if not os.path.exists("../data/spadl_format"):
-    os.makedirs("../data/spadl_format")
-players: pd.DataFrame = pd.read_json("../data/wyscout/players/players.json")
+if not os.path.exists("data/spadl_format"):
+    os.makedirs("data/spadl_format")
+players: pd.DataFrame = pd.read_json("data/wyscout/players/players.json")
 players["player_name"] = players["shortName"].str.decode("unicode-escape")
 players = players[["wyId", "player_name"]].rename(columns={"wyId": "player_id"})
 
 for league in leagues:
     df = spadl_transform(events=events[league], matches=matches[league])
     df = df.merge(players, on="player_id", how="left")
-    df.to_csv(f"../data/spadl_format/{league}.csv") 
+    df.to_csv(f"data/spadl_format/{league}.csv") 
     
 
