@@ -1,11 +1,11 @@
 #!/bin/bash
 
-if [ ! -d "data/" ]; then 
-    mkdir data;
+if [ ! -d "data/" ]; then
+    mkdir data
 fi
 
-if [ ! -d "data/wyscout" ]; then 
-    mkdir data/wyscout;
+if [ ! -d "data/wyscout" ]; then
+    mkdir data/wyscout
 fi
 
 mkdir \
@@ -56,3 +56,9 @@ wget -P data/wyscout/eventId2name https://figshare.com/ndownloader/files/2138524
 mv data/wyscout/eventId2name/21385245 data/wyscout/eventId2name/eventId2name.csv
 
 # link for minutes per game data: https://github.com/soccermatics/Soccermatics/tree/main/course/lessons/minutes_played
+
+wget -P data/wyscout/minutes_played/ https://raw.githubusercontent.com/soccermatics/Soccermatics/main/course/lessons/minutes_played/minutes_played_per_game_England.json
+wget -P data/wyscout/minutes_played/ https://raw.githubusercontent.com/soccermatics/Soccermatics/main/course/lessons/minutes_played/minutes_played_per_game_Spain.json
+wget -P data/wyscout/minutes_played/ https://raw.githubusercontent.com/soccermatics/Soccermatics/main/course/lessons/minutes_played/minutes_played_per_game_France.json
+wget -P data/wyscout/minutes_played/ https://raw.githubusercontent.com/soccermatics/Soccermatics/main/course/lessons/minutes_played/minutes_played_per_game_Germany.json
+wget -P data/wyscout/minutes_played/ https://raw.githubusercontent.com/soccermatics/Soccermatics/main/course/lessons/minutes_played/minutes_played_per_game_Italy.json
