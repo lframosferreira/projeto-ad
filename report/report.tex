@@ -180,12 +180,28 @@ de algoritmo de mineração de dados. Nesta seção, discutimos alguns
 \textit{insights} interessantes observados na base das 5 grandes ligas
 europeias da temporada 17/18.
 
+\subsection{Distribuição de ações}
+
+A base de dados possui uma distribuição não uniforme de ações. Como pode-se
+analisar no histograma abaixo, os eventos de passes são extremamente mais
+frequentes do que qualquer outro. Isso está dentro do esperado, dado que o
+passe é o principal fundamento do futebol, mas deve ser levado em consideração
+quando modelos de mineração forem aplicados à base de dados.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.5\textwidth]{images/action_distribution.png}
+    \caption{Distribuições dos tipos de ação}
+    \label{fig:example}
+\end{figure}
+
 \subsection{Distância média entre passes}
 
 O passe é um dos se não o fundamento mais importante em um esporte coletivo
 como o futebol. Uma boa execução desse fundamento por parte dos jogadores
 de uma equipe indica um bom controle da posse de bola que está diretamente
-conectado com bons resultados. Nesse sentido é interessante fazer um análise
+conectado com bons resultados \cite{cox2022linhas}. Nesse sentido é
+interessante fazer um análise
 das distâncias entre os passes
 executados por cada equipe.
 
@@ -473,14 +489,6 @@ distância média entre os passes da equipe.
     \caption{Bundesliga}
     \label{tab:average_distance_germany}
 \end{table}
-
-\subsection{Tempo médio entre eventos}
-
-Um outro importante aspecto do futebol atual é a velocidade do jogo, em termos
-de rapidez dos jogadores na tomada de decisões \cite{cox2022linhas}. Nesse
-sentido, foi analisada a duração dos eventos de passes de cada equipe, isto é,
-desde o momento que receptou a bola, quanto tempo o jogador demorou para passar
-a bola novamente ou realizar alguma outra ação como chute ao gol.
 
 \section{Resultados}
 
