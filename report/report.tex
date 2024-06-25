@@ -22,7 +22,8 @@
         {\large Projeto Final da disciplina de Aprendizado Descritivo}\\[5.1cm]
         {\large \bf Mineração de dados de eventos em futebol}\\[5.1cm]
     \end{center}
-    {\large Alunos: Luís Felipe Ramos Ferreira, Igor Lacerda Faria da Silva, Matheus Tiago Pimenta de Souza}\\[0.7cm]
+    {\large Alunos: Luís Felipe Ramos Ferreira, Igor Lacerda Faria da Silva,
+    Matheus Tiago Pimenta de Souza}\\[0.7cm]
     {\large Professor: Renato Vimieiro}\\[5.1cm]
     \begin{center}
         {\large Belo Horizonte - Minas Gerais}\\[0.2cm]
@@ -40,7 +41,7 @@
 \tableofcontents
 \newpage
 
-\title{Projeto Final de Aprendizado Descritivo}
+\title{Mineração de dados de evento em futebol}
 \author{Luís Felipe Ramos Ferreira \\  Igor Lacerda iFaria da Silva \\ Matheus
     Tiago Pimenta de Souza}
 
@@ -173,50 +174,92 @@ do repositório.
 
 \section{Análise Exploratória}
 
-A base de dados de eventos possui muitas informações interessantes que podem ser exploradas antes mesmo da aplicação
-de algoritmo de mineração de dados. Nesta seção, discutimos alguns \textit{insights} interessantes observados na base das 5 grandes ligas europeias da temporada 17/18.
+A base de dados de eventos possui muitas informações interessantes que podem
+ser exploradas antes mesmo da aplicação
+de algoritmo de mineração de dados. Nesta seção, discutimos alguns
+\textit{insights} interessantes observados na base das 5 grandes ligas
+europeias da temporada 17/18.
 
 \subsection{Distância média entre passes}
 
-O passe é um dos se não o fundamento mais importante em um esporte coletivo como o futebol. Uma boa execução desse fundamento por parte dos jogadores
-de uma equipe indica um bom controle da posse de bola que está diretamente conectado com bons resultados. Nesse sentido é interessante fazer um análise das distâncias entre os passes
+O passe é um dos se não o fundamento mais importante em um esporte coletivo
+como o futebol. Uma boa execução desse fundamento por parte dos jogadores
+de uma equipe indica um bom controle da posse de bola que está diretamente
+conectado com bons resultados. Nesse sentido é interessante fazer um análise
+das distâncias entre os passes
 executados por cada equipe.
 
-Em particular, foi coletada a distância entre todos os passes bem sucedidos de cada equipe e, posteriormente, coletadas estatísticas sobre essas distâncias. A distância média
-entre passes se destacou, uma vez que ela indica como funciona a dinâmica de troca de passes de uma equipe. Os resultados observados confirmaram suspeitas prévias acerca do assunto.
-Como pode-se notar nas tabelas abaixo, para cada uma das grandes ligas, as principais equipes, isto é, as equipes com maior grandeza histórica e maior poderio financeiro figuram como aquelas
-que possuem a menor distância média entre passes bem sucedidos. Na Inglaterra, por exemplo, o Manchester City, equipe comandada pelo espanhol Pep Guardiola, foi a equipe com a menor média
-de distância entre passes. O estilo de jogo de Guardiola é muito focado no controle da posse de bola e na movimentação dos jogadores para receptar um passe \cite{terzis2023pep}, então o resultado está dentro do
+Em particular, foi coletada a distância entre todos os passes bem sucedidos de
+cada equipe e, posteriormente, coletadas estatísticas sobre essas distâncias. A
+distância média
+entre passes se destacou, uma vez que ela indica como funciona a dinâmica de
+troca de passes de uma equipe. Os resultados observados confirmaram suspeitas
+prévias acerca do assunto.
+Como pode-se notar nas tabelas abaixo, para cada uma das grandes ligas, as
+principais equipes, isto é, as equipes com maior grandeza histórica e maior
+poderio financeiro figuram como aquelas
+que possuem a menor distância média entre passes bem sucedidos. Na Inglaterra,
+por exemplo, o Manchester City, equipe comandada pelo espanhol Pep Guardiola,
+foi a equipe com a menor média
+de distância entre passes. O estilo de jogo de Guardiola é muito focado no
+controle da posse de bola e na movimentação dos jogadores para receptar um
+passe \cite{terzis2023pep}, então o resultado está dentro do
 esperado.
 
-É interessantes notar que os clubes com menor média de distância entre os passes da temporada 17/18 em cada liga mantiveram posições altas em seus respectivos campeonatos. O Manchester City e o Paris Saint Germain se sagraram campeões, enquanto Napoli e Atletico de Madrid ficaram com a segunda colocação.
-Na Alemanha, o RB Leipzig ficou com a sexta colocação. Pode-se notar então que existe uma correlação entre a o desempenho de um time no campeonato com a distância média entre os passes da equipe.
+É interessantes notar que os clubes com menor média de distância entre os
+passes da temporada 17/18 em cada liga mantiveram posições altas em seus
+respectivos campeonatos. O Manchester City e o Paris Saint Germain se sagraram
+campeões, enquanto Napoli e Atletico de Madrid ficaram com a segunda colocação.
+Na Alemanha, o RB Leipzig ficou com a sexta colocação. Pode-se notar então que
+existe uma correlação entre a o desempenho de um time no campeonato com a
+distância média entre os passes da equipe.
 
 \begin{table}[H]
     \centering
     \begin{tabular}{|c|c|}
         \hline
-        \textbf{Equipe}            & \textbf{Distância média entre passes (m)} \\ \hline
-        Manchester City FC         & 17.208                                    \\ \hline
-        Arsenal FC                 & 17.729                                    \\ \hline
-        Manchester United FC       & 17.823                                    \\ \hline
-        AFC Bournemouth            & 18.417                                    \\ \hline
-        Tottenham Hotspur FC       & 18.490                                    \\ \hline
-        Crystal Palace FC          & 18.555                                    \\ \hline
-        Chelsea FC                 & 18.682                                    \\ \hline
-        Southampton FC             & 18.801                                    \\ \hline
-        Liverpool FC               & 18.808                                    \\ \hline
-        West Ham United FC         & 18.832                                    \\ \hline
-        Watford FC                 & 18.967                                    \\ \hline
-        Newcastle United FC        & 18.972                                    \\ \hline
-        Swansea City AFC           & 19.077                                    \\ \hline
-        Leicester City FC          & 19.189                                    \\ \hline
-        Huddersfield Town FC       & 19.215                                    \\ \hline
-        Stoke City FC              & 19.690                                    \\ \hline
-        West Bromwich Albion FC    & 19.712                                    \\ \hline
-        Everton FC                 & 19.785                                    \\ \hline
-        Brighton \& Hove Albion FC & 19.838                                    \\ \hline
-        Burnley FC                 & 20.634                                    \\ \hline
+        \textbf{Equipe}            & \textbf{Distância média entre passes (m)}
+        \\ \hline
+        Manchester City FC         & 17.208
+        \\ \hline
+        Arsenal FC                 & 17.729
+        \\ \hline
+        Manchester United FC       & 17.823
+        \\ \hline
+        AFC Bournemouth            & 18.417
+        \\ \hline
+        Tottenham Hotspur FC       & 18.490
+        \\ \hline
+        Crystal Palace FC          & 18.555
+        \\ \hline
+        Chelsea FC                 & 18.682
+        \\ \hline
+        Southampton FC             & 18.801
+        \\ \hline
+        Liverpool FC               & 18.808
+        \\ \hline
+        West Ham United FC         & 18.832
+        \\ \hline
+        Watford FC                 & 18.967
+        \\ \hline
+        Newcastle United FC        & 18.972
+        \\ \hline
+        Swansea City AFC           & 19.077
+        \\ \hline
+        Leicester City FC          & 19.189
+        \\ \hline
+        Huddersfield Town FC       & 19.215
+        \\ \hline
+        Stoke City FC              & 19.690
+        \\ \hline
+        West Bromwich Albion FC    & 19.712
+        \\ \hline
+        Everton FC                 & 19.785
+        \\ \hline
+        Brighton \& Hove Albion FC & 19.838
+        \\ \hline
+        Burnley FC                 & 20.634
+        \\ \hline
     \end{tabular}
     \caption{Premier League}
     \label{tab:average_distance_england}
@@ -227,27 +270,49 @@ Na Alemanha, o RB Leipzig ficou com a sexta colocação. Pode-se notar então qu
     \centering
     \begin{tabular}{|c|c|}
         \hline
-        \textbf{Equipe}                  & \textbf{Distância média entre passes (m)} \\ \hline
-        Club Atlético de Madrid          & 17.581                                    \\ \hline
-        FC Barcelona                     & 17.618                                    \\ \hline
-        UD Las Palmas                    & 17.864                                    \\ \hline
-        Real Madrid Club de Fútbol       & 17.905                                    \\ \hline
-        Sevilla FC                       & 18.070                                    \\ \hline
-        Real Betis Balompié              & 18.659                                    \\ \hline
-        Villarreal Club de Fútbol        & 18.703                                    \\ \hline
-        Real Club Deportivo de La Coruña & 18.990                                    \\ \hline
-        Reial Club Deportiu Espanyol     & 19.018                                    \\ \hline
-        Real Sociedad de Fútbol          & 19.051                                    \\ \hline
-        Valencia Club de Fútbol          & 19.090                                    \\ \hline
-        Deportivo Alavés                 & 19.225                                    \\ \hline
-        Real Club Celta de Vigo          & 19.324                                    \\ \hline
-        CD Leganés                       & 19.340                                    \\ \hline
-        Levante UD                       & 19.353                                    \\ \hline
-        Málaga Club de Fútbol            & 19.527                                    \\ \hline
-        Girona FC                        & 20.133                                    \\ \hline
-        Athletic Club Bilbao             & 20.137                                    \\ \hline
-        Getafe Club de Fútbol            & 20.608                                    \\ \hline
-        SD Eibar                         & 20.982                                    \\ \hline
+        \textbf{Equipe}                  & \textbf{Distância média entre passes
+            (m)}
+        \\ \hline
+        Club Atlético de Madrid          & 17.581
+        \\ \hline
+        FC Barcelona                     & 17.618
+        \\ \hline
+        UD Las Palmas                    & 17.864
+        \\ \hline
+        Real Madrid Club de Fútbol       & 17.905
+        \\ \hline
+        Sevilla FC                       & 18.070
+        \\ \hline
+        Real Betis Balompié              & 18.659
+        \\ \hline
+        Villarreal Club de Fútbol        & 18.703
+        \\ \hline
+        Real Club Deportivo de La Coruña & 18.990
+        \\ \hline
+        Reial Club Deportiu Espanyol     & 19.018
+        \\ \hline
+        Real Sociedad de Fútbol          & 19.051
+        \\ \hline
+        Valencia Club de Fútbol          & 19.090
+        \\ \hline
+        Deportivo Alavés                 & 19.225
+        \\ \hline
+        Real Club Celta de Vigo          & 19.324
+        \\ \hline
+        CD Leganés                       & 19.340
+        \\ \hline
+        Levante UD                       & 19.353
+        \\ \hline
+        Málaga Club de Fútbol            & 19.527
+        \\ \hline
+        Girona FC                        & 20.133
+        \\ \hline
+        Athletic Club Bilbao             & 20.137
+        \\ \hline
+        Getafe Club de Fútbol            & 20.608
+        \\ \hline
+        SD Eibar                         & 20.982
+        \\ \hline
     \end{tabular}
     \caption{La Liga}
     \label{tab:average_distance_spain}
@@ -258,27 +323,49 @@ Na Alemanha, o RB Leipzig ficou com a sexta colocação. Pode-se notar então qu
     \centering
     \begin{tabular}{|c|c|}
         \hline
-        \textbf{Equipe}                          & \textbf{Distância média entre passes (m)} \\ \hline
-        Paris Saint-Germain FC                   & 17.205                                    \\ \hline
-        O.G.C. Nice Côte d'Azur                  & 17.923                                    \\ \hline
-        Olympique de Marseille                   & 17.977                                    \\ \hline
-        Lille OSC Métropole                      & 17.999                                    \\ \hline
-        En Avant Guingamp                        & 18.008                                    \\ \hline
-        AS Saint-Étienne                         & 18.320                                    \\ \hline
-        Olympique Lyonnais                       & 18.377                                    \\ \hline
-        Angers SCO                               & 18.414                                    \\ \hline
-        FC Nantes                                & 18.544                                    \\ \hline
-        Amiens SC                                & 18.570                                    \\ \hline
-        Espérance Sportive Troyes Aube Champagne & 18.604                                    \\ \hline
-        FC Girondins de Bordeaux                 & 18.621                                    \\ \hline
-        AS Monaco FC                             & 19.099                                    \\ \hline
-        Stade Rennais FC                         & 19.141                                    \\ \hline
-        FC Metz                                  & 19.266                                    \\ \hline
-        RC Strasbourg Alsace                     & 19.424                                    \\ \hline
-        Montpellier HSC                          & 19.592                                    \\ \hline
-        Toulouse FC                              & 19.677                                    \\ \hline
-        Stade Malherbe Caen                      & 19.805                                    \\ \hline
-        Dijon FCO                                & 19.913                                    \\ \hline
+        \textbf{Equipe}                          & \textbf{Distância média
+        entre passes (m)}                                                  \\
+        \hline
+        Paris Saint-Germain FC                   & 17.205
+        \\ \hline
+        O.G.C. Nice Côte d'Azur                  & 17.923
+        \\ \hline
+        Olympique de Marseille                   & 17.977
+        \\ \hline
+        Lille OSC Métropole                      & 17.999
+        \\ \hline
+        En Avant Guingamp                        & 18.008
+        \\ \hline
+        AS Saint-Étienne                         & 18.320
+        \\ \hline
+        Olympique Lyonnais                       & 18.377
+        \\ \hline
+        Angers SCO                               & 18.414
+        \\ \hline
+        FC Nantes                                & 18.544
+        \\ \hline
+        Amiens SC                                & 18.570
+        \\ \hline
+        Espérance Sportive Troyes Aube Champagne & 18.604
+        \\ \hline
+        FC Girondins de Bordeaux                 & 18.621
+        \\ \hline
+        AS Monaco FC                             & 19.099
+        \\ \hline
+        Stade Rennais FC                         & 19.141
+        \\ \hline
+        FC Metz                                  & 19.266
+        \\ \hline
+        RC Strasbourg Alsace                     & 19.424
+        \\ \hline
+        Montpellier HSC                          & 19.592
+        \\ \hline
+        Toulouse FC                              & 19.677
+        \\ \hline
+        Stade Malherbe Caen                      & 19.805
+        \\ \hline
+        Dijon FCO                                & 19.913
+        \\ \hline
     \end{tabular}
     \caption{Ligue 1}
     \label{tab:average_distance_france}
@@ -289,27 +376,49 @@ Na Alemanha, o RB Leipzig ficou com a sexta colocação. Pode-se notar então qu
     \centering
     \begin{tabular}{|c|c|}
         \hline
-        \textbf{Equipe}                        & \textbf{Distância média entre passes (m)} \\ \hline
-        SSC Napoli                             & 16.864                                    \\ \hline
-        FC Internazionale Milano               & 17.370                                    \\ \hline
-        UC Sampdoria                           & 17.980                                    \\ \hline
-        AC Milan                               & 18.514                                    \\ \hline
-        Torino FC                              & 18.564                                    \\ \hline
-        Benevento Calcio                       & 18.613                                    \\ \hline
-        ACF Fiorentina                         & 18.654                                    \\ \hline
-        AC Chievo Verona                       & 18.706                                    \\ \hline
-        SS Lazio                               & 18.712                                    \\ \hline
-        Atalanta Bergamasca Calcio             & 18.757                                    \\ \hline
-        AS Roma                                & 18.759                                    \\ \hline
-        Società Polisportiva Ars et Labor 2013 & 18.763                                    \\ \hline
-        Genoa CFC                              & 18.890                                    \\ \hline
-        Cagliari Calcio                        & 18.897                                    \\ \hline
-        Juventus FC                            & 18.983                                    \\ \hline
-        Udinese Calcio                         & 19.043                                    \\ \hline
-        Bologna FC 1909                        & 19.056                                    \\ \hline
-        FC Crotone                             & 19.103                                    \\ \hline
-        Hellas Verona FC                       & 19.202                                    \\ \hline
-        US Sassuolo Calcio                     & 19.646                                    \\ \hline
+        \textbf{Equipe}                        & \textbf{Distância média entre
+            passes (m)}
+        \\ \hline
+        SSC Napoli                             & 16.864
+        \\ \hline
+        FC Internazionale Milano               & 17.370
+        \\ \hline
+        UC Sampdoria                           & 17.980
+        \\ \hline
+        AC Milan                               & 18.514
+        \\ \hline
+        Torino FC                              & 18.564
+        \\ \hline
+        Benevento Calcio                       & 18.613
+        \\ \hline
+        ACF Fiorentina                         & 18.654
+        \\ \hline
+        AC Chievo Verona                       & 18.706
+        \\ \hline
+        SS Lazio                               & 18.712
+        \\ \hline
+        Atalanta Bergamasca Calcio             & 18.757
+        \\ \hline
+        AS Roma                                & 18.759
+        \\ \hline
+        Società Polisportiva Ars et Labor 2013 & 18.763
+        \\ \hline
+        Genoa CFC                              & 18.890
+        \\ \hline
+        Cagliari Calcio                        & 18.897
+        \\ \hline
+        Juventus FC                            & 18.983
+        \\ \hline
+        Udinese Calcio                         & 19.043
+        \\ \hline
+        Bologna FC 1909                        & 19.056
+        \\ \hline
+        FC Crotone                             & 19.103
+        \\ \hline
+        Hellas Verona FC                       & 19.202
+        \\ \hline
+        US Sassuolo Calcio                     & 19.646
+        \\ \hline
     \end{tabular}
     \caption{Serie A}
     \label{tab:average_distance_italy}
@@ -321,29 +430,57 @@ Na Alemanha, o RB Leipzig ficou com a sexta colocação. Pode-se notar então qu
     \centering
     \begin{tabular}{|c|c|}
         \hline
-        \textbf{Equipe}              & \textbf{Distância média entre passes (m)} \\ \hline
-        Rasen Ballsport Leipzig      & 18.123                                    \\ \hline
-        TSV Bayer 04 Leverkusen      & 18.319                                    \\ \hline
-        BV Borussia 09 Dortmund      & 18.386                                    \\ \hline
-        Borussia VfL Mönchengladbach & 18.648                                    \\ \hline
-        FC Bayern München            & 18.835                                    \\ \hline
-        TSG 1899 Hoffenheim          & 19.136                                    \\ \hline
-        FC Schalke 04                & 19.255                                    \\ \hline
-        Hannover 96                  & 19.269                                    \\ \hline
-        VfB Stuttgart 1893           & 19.616                                    \\ \hline
-        1. FC Köln                   & 19.626                                    \\ \hline
-        Hertha BSC                   & 19.762                                    \\ \hline
-        Hamburger SV                 & 19.834                                    \\ \hline
-        VfL Wolfsburg                & 19.836                                    \\ \hline
-        SV Werder Bremen             & 19.883                                    \\ \hline
-        1. FSV Mainz 05              & 19.884                                    \\ \hline
-        SC Freiburg                  & 19.904                                    \\ \hline
-        FC Augsburg                  & 20.228                                    \\ \hline
-        Eintracht Frankfurt          & 20.606                                    \\ \hline
+        \textbf{Equipe}              & \textbf{Distância média entre passes
+        (m)}                                                                \\
+        \hline
+        Rasen Ballsport Leipzig      & 18.123
+        \\ \hline
+        TSV Bayer 04 Leverkusen      & 18.319
+        \\ \hline
+        BV Borussia 09 Dortmund      & 18.386
+        \\ \hline
+        Borussia VfL Mönchengladbach & 18.648
+        \\ \hline
+        FC Bayern München            & 18.835
+        \\ \hline
+        TSG 1899 Hoffenheim          & 19.136
+        \\ \hline
+        FC Schalke 04                & 19.255
+        \\ \hline
+        Hannover 96                  & 19.269
+        \\ \hline
+        VfB Stuttgart 1893           & 19.616
+        \\ \hline
+        1. FC Köln                   & 19.626
+        \\ \hline
+        Hertha BSC                   & 19.762
+        \\ \hline
+        Hamburger SV                 & 19.834
+        \\ \hline
+        VfL Wolfsburg                & 19.836
+        \\ \hline
+        SV Werder Bremen             & 19.883
+        \\ \hline
+        1. FSV Mainz 05              & 19.884
+        \\ \hline
+        SC Freiburg                  & 19.904
+        \\ \hline
+        FC Augsburg                  & 20.228
+        \\ \hline
+        Eintracht Frankfurt          & 20.606
+        \\ \hline
     \end{tabular}
     \caption{Bundesliga}
     \label{tab:average_distance_germany}
 \end{table}
+
+\subsection{Tempo médio entre eventos}
+
+Um outro importante aspecto do futebol atual é a velocidade do jogo, em termos
+de rapidez dos jogadores na tomada de decisões \cite{cox2022linhas}. Nesse
+sentido, foi analisada a duração dos eventos de passes de cada equipe, isto é,
+desde o momento que receptou a bola, quanto tempo o jogador demorou para passar
+a bola novamente ou realizar alguma outra ação como chute ao gol.
 
 \section{Resultados}
 
