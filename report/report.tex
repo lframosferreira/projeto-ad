@@ -19,10 +19,12 @@
 		{\large Universidade Federal de Minas Gerais}\\[0.2cm]
 		{\large Instituto de Ciências Exatas}\\[0.2cm]
 		{\large Departamento de Ciência da Computação}\\[0.2cm]
-		{\large Projeto Final da disciplina de Aprendizado Descritivo}\\[5.1cm]
+		{\large Projeto Final da disciplina de Aprendizado
+		Descritivo}\\[5.1cm]
 		{\large \bf Mineração de dados de eventos em futebol}\\[5.1cm]
 	\end{center}
-	{\large Alunos: Luís Felipe Ramos Ferreira, Igor Lacerda Faria da Silva,
+	{\large Alunos: Luís Felipe Ramos Ferreira, Igor Lacerda Faria da
+	Silva,
 	Matheus Tiago Pimenta de Souza}\\[0.7cm]
 	{\large Professor: Renato Vimieiro}\\[5.1cm]
 	\begin{center}
@@ -128,13 +130,16 @@ um evento segundo o formato SPADL.
 		end\_y            & A localização y onde a ação terminou
 		\\
 		\hline
-		action\_type      & O tipo de ação (por exemplo, passe, chute, drible)
+		action\_type      & O tipo de ação (por exemplo, passe, chute,
+		drible)
 		\\
 		\hline
-		result            & O resultado da ação (por exemplo, sucesso ou falha)
+		result            & O resultado da ação (por exemplo, sucesso
+		ou falha)
 		\\
 		\hline
-		bodypart          & A parte do corpo do jogador usada para a ação
+		bodypart          & A parte do corpo do jogador usada para a
+		ação
 		\\
 		\hline
 	\end{tabular}
@@ -174,8 +179,10 @@ do repositório.
 
 \section{Referencial Teórico}
 
-No decorrer do trabalho, duas importantes métricas de análise ofensivano futebol serão utilizadas. Esta seção 
-aglomera os conhecimentos necessários sobre elas para a compreensão do projeto e o como elas foram utilizadas.
+No decorrer do trabalho, duas importantes métricas de análise ofensivano
+futebol serão utilizadas. Esta seção
+aglomera os conhecimentos necessários sobre elas para a compreensão do projeto
+e o como elas foram utilizadas.
 
 \subsection{Gols esperados}
 
@@ -210,7 +217,8 @@ quando modelos de mineração forem aplicados à base de dados.
 
 \subsection{Distribuição da posição de chutes convertidos em gol}
 
-O mapa de calor abaixo permite que sejam analisadas a distribuição das posições dos chutes que se converteram em gol
+O mapa de calor abaixo permite que sejam analisadas a distribuição das posições
+dos chutes que se converteram em gol
 na base de dados.
 
 \begin{figure}[H]
@@ -259,7 +267,8 @@ distância média entre os passes da equipe.
 	\centering
 	\begin{tabular}{|c|c|}
 		\hline
-		\textbf{Equipe}            & \textbf{Distância média entre passes (m)}
+		\textbf{Equipe}            & \textbf{Distância média entre
+			passes (m)}
 		\\ \hline
 		Manchester City FC         & 17.208
 		\\ \hline
@@ -311,7 +320,8 @@ distância média entre os passes da equipe.
 	\centering
 	\begin{tabular}{|c|c|}
 		\hline
-		\textbf{Equipe}                  & \textbf{Distância média entre passes
+		\textbf{Equipe}                  & \textbf{Distância média
+			entre passes
 			(m)}
 		\\ \hline
 		Club Atlético de Madrid          & 17.581
@@ -364,8 +374,10 @@ distância média entre os passes da equipe.
 	\centering
 	\begin{tabular}{|c|c|}
 		\hline
-		\textbf{Equipe}                          & \textbf{Distância média
-		entre passes (m)}                                                  \\
+		\textbf{Equipe}                          & \textbf{Distância
+			média
+			entre passes (m)}
+		\\
 		\hline
 		Paris Saint-Germain FC                   & 17.205
 		\\ \hline
@@ -417,7 +429,8 @@ distância média entre os passes da equipe.
 	\centering
 	\begin{tabular}{|c|c|}
 		\hline
-		\textbf{Equipe}                        & \textbf{Distância média entre
+		\textbf{Equipe}                        & \textbf{Distância
+			média entre
 			passes (m)}
 		\\ \hline
 		SSC Napoli                             & 16.864
@@ -471,8 +484,10 @@ distância média entre os passes da equipe.
 	\centering
 	\begin{tabular}{|c|c|}
 		\hline
-		\textbf{Equipe}              & \textbf{Distância média entre passes
-		(m)}                                                                \\
+		\textbf{Equipe}              & \textbf{Distância média entre
+			passes
+			(m)}
+		\\
 		\hline
 		Rasen Ballsport Leipzig      & 18.123
 		\\ \hline
@@ -517,7 +532,8 @@ distância média entre os passes da equipe.
 
 \section{Extração de features}
 
-quais features usamos e qual target (paper original usou binario e xg, propomos usar vaep)
+quais features usamos e qual target (paper original usou binario e xg, propomos
+usar vaep)
 
 \section{Descoberta de subgrupos}
 
@@ -525,7 +541,8 @@ sd nos dados. usar pysubgroupigual no artigo domiguel
 
 \section{Mineração de sequências}
 
-minerar sequencias antes de gols. nao so tipo deacao,mas pegar posição no campo, jogadores, etc
+minerar sequencias antes de gols. nao so tipo deacao,mas pegar posição no
+campo, jogadores, etc
 
 \section{Resultados}
 
