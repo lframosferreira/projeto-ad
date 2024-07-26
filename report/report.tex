@@ -53,12 +53,12 @@
 
 O uso de ciência de dados e estatística para analisar esportes é algo que vem
 crescendo cada vez mais nos últimos anos. Em
-particular, o futebol têm sido um desses
+particular, o futebol tem sido um desses
 esportes \cite{takvorian2021beautiful}. A própria UFMG ofertou no
-ano passado e novamente neste semestre a disciplina `Ciência de Dados aplicada
-ao futebol', o que mostra a relevância do tema. Diversas empresas que atuam na
+ano passado e novamente neste semestre a disciplina ``Ciência de Dados Aplicada
+ao Futebol'', o que mostra a relevância do tema. Diversas empresas que atuam na
 área surgem a cada dia, e os times de futebol, no Brasil e no resto do
-mundo, estão investimento em seus departamentos de dados e estatística.
+mundo, estão investindo em seus departamentos de dados e estatística.
 
 Nesse sentido, nosso grupo optou por estudar e compreender melhor como funciona
 o uso de análises estatísticas no futebol, dado o interesse geral pelo esporte,
@@ -80,12 +80,11 @@ das temporadas 17/18 da empresa \textit{Wyscout}.
 
 \subsection{Base de dados}
 
-As bases de dados utilizadas na ferramenta consistirá na base principal
-disponibilizada pela empresa \textit{Wyscout},
-consistindo em uma base de dados de evento das 5 grandes ligas europeias na
+A principal base disponibilizada pela empresa \textit{Wyscout} foi usada como
+nossa base de dados. Ela contém dados de evento das 5 grandes ligas europeias na
 temporada 17/18.
 
-Cada empresa fornecedora de dados possuem seu próprio formato de representação
+Cada empresa fornecedora de dados possui seu próprio formato de representação
 dos dados de evento. De modo a facilitar a mesclagem entre as bases de dados
 utilizadas, iremos converter os dados coletados para uma representação geral
 proposta por pesquisadores denominada
@@ -173,24 +172,108 @@ diferentes, foi utilizado o gerenciador de pacotes
 com os pacotes de ciência de dados citados. O projeto final foi salvo em um
 \href{https://github.com/lframosferreira/projeto-ad}{\texttt{repositório}}
 no GitHub para fácil versionamento e organização de código. As instruções de
-como
-utilizar o que foi implementado estão descritas no arquivo \textit{README.md}
+como utilizar o que foi implementado estão descritas no \textit{README}
 do repositório.
 
 \section{Referencial Teórico}
 
-No decorrer do trabalho, duas importantes métricas de análise ofensivano
+No decorrer do trabalho, duas importantes métricas de análise ofensiva no
 futebol serão utilizadas. Esta seção
 aglomera os conhecimentos necessários sobre elas para a compreensão do projeto
 e o como elas foram utilizadas.
 
-\subsection{Gols esperados}
+\subsection{Gols Esperados (\textit{xG})}
 
-A métrica
+Intuitivamente, existe a noção de que, quanto mais próximo um jogador está do
+gol, mais chance ele tem de conseguir marcar um ponto para sua equipe. Uma
+noção similar existe para o ângulo entre o gol e jogador: é mais difícil um
+atacante acertar se ele está em uma das laterais. Na área de \textit{analytics}
+de futebol, essa noção é formalizada através da métrica de \textit{expected
+goals}, ou \textit{xG}. A ideia central é construir um modelo do que um jogador
+médio faria em dado estado de jogo, que, além de incluir os fatores mencionados
+anteriormente, pode ser mais (ou menos) extensivo.
 
-\subsection{VAEP}
+A métrica de Gols Esperados captura um estado de jogo e retorna uma
+probabilidade estimada de um jogador marcar. Ela pode ser vista como um
+\textit{framework}, cujos detalhes de implementação são decididos pelo usuário.
+Outros fatores considerados importantes são: parte do corpo associada à ação
+(pé dominante ou não; de cabeça), origem da assistência (cruzamento, passe) e a
+posição dos defensores. Para avaliar este último quesito, é necessário ter
+dados de \textit{tracking}, o que limita consideravelmente sua adoção. Além disso,
+mesmo questões como a liga em análise podem ser relevantes.
 
-falar da vaep \cite{vaep}
+O uso do \textit{xG} é mais amplo do que se pode imaginar a princípio. Em um
+primeiro momento, partidas podem ser analisadas: é possível avaliar se um time
+fez mais ``pressão'' pela soma do seu \textit{xG} na partida. No entanto, como
+com qualquer outro indicador, o \textit{xG} não define absolutamente o
+resultado de um jogo, podendo um time aproveitar muito bem situações menos
+favoráveis. Outra aplicação é avaliação de jogadores: se um jogador
+consistentemente faz gols em situações desfavoráveis, isso é um grande indício
+de que ele é jogador de destaque, ou age muito bem sob pressão. O \textit{xG}
+também pode ser usado taticamente, para proporcionar melhorias no
+posicionamento dos jogadores da \textit{defesa} e para embasar estratégias.
+
+É comum usar modelos de regressão logística para aplicar o \textit{xG}, em que
+se considera uma combinação dos fatores mencionados anteriormente. Essa
+combinação não é necessariamente linear: considerar o quadrado da distância
+pode ser valioso, por exemplo. Na prática, no entanto, qualquer modelo de
+classificação binária pode ser usado. Um exemplo muito prevalente é o
+\textit{xG} do \textit{Statsbomb}, que usa um \textit{XGBoost} e considera a
+quantidade e a posição dos jogadores entre o gol e o jogador que faz o lance.
+
+\subsection{Valuing Actions by Estimating Probabilities (VAEP)}
+
+O \textit{xG} deixa a desejar em alguns aspectos. Principalmente pelo fato de
+focar exclusivamente nas chances de se fazer gols, sem considerar outros
+aspectos importantes do jogo. Por exemplo, existem passes que são cruciais para
+uma equipe se aproximar do gol. É justamente para suprir a necessidade de
+avaliar as ações dos jogadores de forma mais ampla que foi desenvolvido o VAEP
+\cite{vaep}. O VAEP avalia cada ação do jogo em termos do quanto ela aumenta (ou
+diminui) a chance de um time fazer (ou sofrer) um gol.
+
+Com base no estado atual do jogo (placar, tempo restante, ações anteriores,
+posição da bola, etc), o VAEP estima a chance de um time fazer ou sofrer um gol,
+antes e após cada ação. Desse modo, é possível estimar a utilidade de uma ação
+com base na diferença entre as mudanças de se fazer e de se sofrer um gol.
+Formalizando, temos que, para um dado time $t$, uma ação $a_i$ e um estado de
+jogo $S_i$:
+
+\begin{equation}
+	\Delta P_{score}(a_i,t) = P^k_{score}(S_i,t) - P^k_{score}(S_{i-1},t)
+	\label{eq:vaep_scores}
+\end{equation}
+
+\begin{equation}
+	\Delta P_{concede}(a_i,t) = P^k_{concede}(S_i,t) - P^k_{concede}(S_{i-1},t)
+	\label{eq:vaep_concedes}
+\end{equation}
+
+\begin{equation}
+	V_{\textrm{VAEP}}(a_i) = \Delta P_{score}(a_i,t) - \Delta P_{concede}(a_i,t) 
+	\label{eq:vaep}
+\end{equation}
+
+Nas equações, $k$ é um parâmetro que indica quantas jogadas futuras estão sendo
+consideradas para se avaliar a jogada atual. Assim, quando uma jogada aumenta
+muito a chance de um gol acontecer, seu VAEP é um número positivo e, caso a
+jogada ofereça mais risco do que recompensa, o VAEP será um valor negativo.
+
+Então, para se calcular o VAEP, é necessário estimar as probabilidades de marcar
+ou sofrer um gol. Essa tarefa pode ser resolvida com Aprendizado de Máquina, com
+a criação de dois modelos: um para estimar a probabilidade da equipe com a posse
+da bola fazer um gol até as $k$ ações após o estado atual $S_i$ e outro para
+estimar a probabilidade de a equipe sofrer o gol no mesmo período. Um valor
+comummente utilizado para $k$ é 3.
+
+Tal como o \textit{xG}, o VAEP pode ser utilizado para se avaliar a performance
+dos jogadores, ao se agregar as ações. Inclusive, os autores do \textit{paper}
+usaram disso para validar que o VAEP é uma métrica consistente. Considerando os
+jogadores que participaram de jogos das ligas europeias nas temporadas de 17/18
+(\textit{coincidentemente} a mesma base de dados que foi usada nesse trabalho)
+por pelo menos 900 minutos, foram construídos gráficos mostrando o número de
+ações por 90 minutos pelo valor médio das ações. Liderando o \textit{ranking},
+nomes conhecidos como Messi, Bale e Cristiano Ronaldo aparecem, o que indica que
+o VAEP é condizente com outras avaliações de desempenho.
 
 \section{Análise Exploratória}
 
@@ -210,7 +293,7 @@ quando modelos de mineração forem aplicados à base de dados.
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.5\textwidth]{images/action_distribution.png}
+	\includegraphics[width=0.8\textwidth]{images/action_distribution.png}
 	\caption{Distribuições dos tipos de ação}
 	\label{fig:action_distribution}
 \end{figure}
@@ -230,7 +313,7 @@ na base de dados.
 
 \subsection{Distância média entre passes}
 
-O passe é um dos se não o fundamento mais importante em um esporte coletivo
+O passe é um dos, se não o fundamento mais importante em um esporte coletivo
 como o futebol. Uma boa execução desse fundamento por parte dos jogadores
 de uma equipe indica um bom controle da posse de bola que está diretamente
 conectado com bons resultados \cite{cox2022linhas}. Nesse sentido é
