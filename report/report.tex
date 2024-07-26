@@ -219,12 +219,61 @@ combinação não é necessariamente linear: considerar o quadrado da distância
 pode ser valioso, por exemplo. Na prática, no entanto, qualquer modelo de
 classificação binária pode ser usado. Um exemplo muito prevalente é o
 \textit{xG} do \textit{Statsbomb}, que usa um \textit{XGBoost} e considera a
-quantidade e a posição dos jogadores entre o gol e o jogador.
+quantidade e a posição dos jogadores entre o gol e o jogador que faz o lance.
 
+\subsection{Valuing Actions by Estimating Probabilities (VAEP)}
 
-\subsection{VAEP}
+O \textit{xG} deixa a desejar em alguns aspectos. Principalmente pelo fato de
+focar exclusivamente nas chances de se fazer gols, sem considerar outros
+aspectos importantes do jogo. Por exemplo, existem passes que são cruciais para
+uma equipe se aproximar do gol. É justamente para suprir a necessidade de
+avaliar as ações dos jogadores de forma mais ampla que foi desenvolvido o VAEP
+\cite{vaep}. O VAEP avalia cada ação do jogo em termos do quanto ela aumenta (ou
+diminui) a chance de um time fazer (ou sofrer) um gol.
 
-falar da vaep \cite{vaep}
+Com base no estado atual do jogo (placar, tempo restante, ações anteriores,
+posição da bola, etc), o VAEP estima a chance de um time fazer ou sofrer um gol,
+antes e após cada ação. Desse modo, é possível estimar a utilidade de uma ação
+com base na diferença entre as mudanças de se fazer e de se sofrer um gol.
+Formalizando, temos que, para um dado time $t$, uma ação $a_i$ e um estado de
+jogo $S_i$:
+
+\begin{equation}
+	\Delta P_{score}(a_i,t) = P^k_{score}(S_i,t) - P^k_{score}(S_{i-1},t)
+	\label{eq:vaep_scores}
+\end{equation}
+
+\begin{equation}
+	\Delta P_{concede}(a_i,t) = P^k_{concede}(S_i,t) - P^k_{concede}(S_{i-1},t)
+	\label{eq:vaep_concedes}
+\end{equation}
+
+\begin{equation}
+	V_{\textrm{VAEP}}(a_i) = \Delta P_{score}(a_i,t) - \Delta P_{concede}(a_i,t) 
+	\label{eq:vaep}
+\end{equation}
+
+Nas equações, $k$ é um parâmetro que indica quantas jogadas futuras estão sendo
+consideradas para se avaliar a jogada atual. Assim, quando uma jogada aumenta
+muito a chance de um gol acontecer, seu VAEP é um número positivo e, caso a
+jogada ofereça mais risco do que recompensa, o VAEP será um valor negativo.
+
+Então, para se calcular o VAEP, é necessário estimar as probabilidades de marcar
+ou sofrer um gol. Essa tarefa pode ser resolvida com Aprendizado de Máquina, com
+a criação de dois modelos: um para estimar a probabilidade da equipe com a posse
+da bola fazer um gol até as $k$ ações após o estado atual $S_i$ e outro para
+estimar a probabilidade de a equipe sofrer o gol no mesmo período. Um valor
+comummente utilizado para $k$ é 3.
+
+Tal como o \textit{xG}, o VAEP pode ser utilizado para se avaliar a performance
+dos jogadores, ao se agregar as ações. Inclusive, os autores do \textit{paper}
+usaram disso para validar que o VAEP é uma métrica consistente. Considerando os
+jogadores que participaram de jogos das ligas europeias nas temporadas de 17/18
+(\textit{coincidentemente} a mesma base de dados que foi usada nesse trabalho)
+por pelo menos 900 minutos, foram construídos gráficos mostrando o número de
+ações por 90 minutos pelo valor médio das ações. Liderando o \textit{ranking},
+nomes conhecidos como Messi, Bale e Cristiano Ronaldo aparecem, o que indica que
+o VAEP é condizente com outras avaliações de desempenho.
 
 \section{Análise Exploratória}
 
