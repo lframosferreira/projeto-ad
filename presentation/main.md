@@ -25,7 +25,7 @@ header-includes:
 
 # Dados de súmula no futebol
 
-![Estatísticas de Botafogo x Cruzeiro](cruzeiro.png)
+![OI](stat_1_optimized.png)
 
 # Dados de evento
 
@@ -33,20 +33,20 @@ header-includes:
 
 # SPADL
 
-| **Atributo**   | **Descrição**                                                        |
-| -------------- | -------------------------------------------------------------------- |
-| game_id        | O ID do jogo no qual a ação foi realizada                            |
-| period_id      | O ID do período do jogo no qual a ação foi realizada                 |
-| seconds        | O tempo de início da ação                                            |
-| player         | O jogador que realizou a ação                                        |
-| team           | O time do jogador                                                    |
-| start_x        | A localização x onde a ação começou                                  |
-| start_y        | A localização y onde a ação começou                                  |
-| end_x          | A localização x onde a ação terminou                                 |
-| end_y          | A localização y onde a ação terminou                                 |
-| action_type    | O tipo de ação (por exemplo, passe, chute, drible)                   |
-| result         | O resultado da ação (por exemplo, sucesso ou falha)                  |
-| bodypart       | A parte do corpo do jogador usada para a ação                        |
+| **Atributo** | **Descrição**                                        |
+| ------------ | ---------------------------------------------------- |
+| game_id      | O ID do jogo no qual a ação foi realizada            |
+| period_id    | O ID do período do jogo no qual a ação foi realizada |
+| seconds      | O tempo de início da ação                            |
+| player       | O jogador que realizou a ação                        |
+| team         | O time do jogador                                    |
+| start_x      | A localização x onde a ação começou                  |
+| start_y      | A localização y onde a ação começou                  |
+| end_x        | A localização x onde a ação terminou                 |
+| end_y        | A localização y onde a ação terminou                 |
+| action_type  | O tipo de ação (por exemplo, passe, chute, drible)   |
+| result       | O resultado da ação (por exemplo, sucesso ou falha)  |
+| bodypart     | A parte do corpo do jogador usada para a ação        |
 
 **Table 1: Descrição dos dados no formato SPADL**
 
@@ -62,21 +62,25 @@ header-includes:
 - Trabalho movitador: `Supervised sequential pattern mining of event sequences in sport to identify important patterns of play: An application to rugby union`
 - Aplicar as ideias em sequências de jogadas de futebol
 
-# Referencial teórico
+# Gols Esperados (xG)
 
-## Gols Esperados (xG)
+- Métrica de cálculo de probabilidade de gol
+- Diferentes `features` podem ser utilizadas:
+  - Distância para o gol
+  - Ângulo de chute
 
-- This is a bullet point.
+POR CHUTE DE PERTO DE GOL PARA DMEONSTRAR
 
-## VAEP
+# VAEP
 
-- ldks
+- Ações valem mais do que apenas gols
+- O quanto cada jogada contribui para o aumento da chance de gol e miniuição da chance de tomar gol?
 
-# Descoberta de subgrupos 
- 
+# Descoberta de subgrupos
+
 -res
 
-# Mineração de sequências 
+# Mineração de sequências
 
 -res
 
