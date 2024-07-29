@@ -19,9 +19,8 @@
 		{\large Universidade Federal de Minas Gerais}\\[0.2cm]
 		{\large Instituto de Ciências Exatas}\\[0.2cm]
 		{\large Departamento de Ciência da Computação}\\[0.2cm]
-		{\large Projeto Final da disciplina de Aprendizado
-		Descritivo}\\[5.1cm]
-		{\large \bf Mineração de dados de eventos em futebol}\\[5.1cm]
+		{\large Projeto Final de Aprendizado Descritivo}\\[5.1cm]
+		{\large \bf Mineração de Dados de Eventos em Futebol}\\[5.1cm]
 	\end{center}
 	{\large Alunos: Luís Felipe Ramos Ferreira, Igor Lacerda Faria da
 	Silva,
@@ -43,7 +42,7 @@
 \tableofcontents
 \newpage
 
-\title{Mineração de dados de evento em futebol}
+\title{Mineração de Dados de Evento em Futebol}
 \author{Luís Felipe Ramos Ferreira \\  Igor Lacerda iFaria da Silva \\ Matheus
 	Tiago Pimenta de Souza}
 
@@ -393,19 +392,120 @@ distância média entre os passes da equipe.
 	\label{tab:average_distance_england}
 \end{table}
 
-\section{Extração de features}
+\section{Extração de \textit{Features}}
 
 quais features usamos e qual target (paper original usou binario e xg, propomos
 usar vaep)
 
-\section{Descoberta de subgrupos}
+\section{Descoberta de Subgrupos}
 
 sd nos dados. usar pysubgroupigual no artigo domiguel
 
-\section{Mineração de sequências}
+\section{Mineração de Sequências}
 
-minerar sequencias antes de gols. nao so tipo deacao,mas pegar posição no
-campo, jogadores, etc
+Também foram aplicadas técnicas de mineração de sequências para encontrar
+padrões de tipos de ações realizadas antes de um chute ao gol. Para realizar a
+mineração de sequências foram usadas algumas técnicas. 
+
+Uma delas foi inspirada em \cite{bunker2021supervised}: o \textit{Safe Pattern
+Pruning} (SPP). Usado originalmente no rugby, com resultados promissores,
+avaliou-se a viabilidade de aplicar o mesmo algoritmo no contexto do futebol.
+Para isso, os dados foram adaptados ao formato de entrada do programa publicado
+pelos autores do artigo: cada linha possui um número para indicar a prosperidade
+da sequência de ações (1 para resultado promissor e -1 para caso contrário) e
+uma sequência de ações propriamente dita.
+
+As sequências de ações são definidas com base na troca de posse de bola, até
+ocorrer algum chute ao gol (\textit{shot}). As ações foram definidas como números, conforme a
+tabela \ref{tab:id_to_action_map}.
+
+\begin{table}[H]
+	\centering
+	\begin{tabular}{|c|c|}
+		\hline
+		\textbf{ID}            & \textbf{Ação}
+		\\ \hline
+		0 & pass
+		\\ \hline
+		1 & interception
+		\\ \hline
+		2 & dribble
+		\\ \hline
+		3 & take on
+		\\ \hline
+		4 & tackle
+		\\ \hline
+		5 & foul
+		\\ \hline
+		6 & freekick short
+		\\ \hline
+		7 & cross
+		\\ \hline
+		\textbf{8} & \textbf{shot}
+		\\ \hline
+		9 & clearance
+		\\ \hline
+		10 & throw in
+		\\ \hline
+		11 & goalkick
+		\\ \hline
+		12 & corner short
+		\\ \hline
+		13 & corner crossed
+		\\ \hline
+		14 & keeper save
+		\\ \hline
+		15 & freekick crossed
+		\\ \hline
+		16 & shot freekick
+		\\ \hline
+		17 & bad touch
+		\\ \hline
+		18 & shot penalty
+		\\ \hline
+	\end{tabular}
+	\caption{Mapeamento de Ações para IDs.}
+	\label{tab:id_to_action_map}
+\end{table}
+
+Para definir se o resultados das ações foi promissor, foram usadas 3 métricas
+distintas: o \textit{xG}, o VAEP e uma classificação binária que indica o
+resultado da ação (no caso de um chute ao gol, se a ação marcou um ponto). O
+\textit{xG} foi estimado com uso de um \textit{RandomForest}, considerando a
+parte do corpo associada ao chute (categoricamente), a distância até o gol e o
+ângulo entre o chute e o gol. Já o VAEP foi treinado com um \textit{XGBoost},
+discretizando-se com um valor de $P_{scores}$ igual a $\frac{1}{2}$. Ou seja,
+apenas chutes cuja probabilidade de marcar foi maior que $\frac{1}{2}$ foram
+considerados promissores.
+
+Os parâmetros usados na execução foram: tamanho máximo dos padrões igual a 5,
+suporte mínimo igual a 50, multiprocessamento habilitado. Traduzindo-se para as
+\textit{flags} utilizadas no programa:
+
+\begin{center}
+	\texttt{-L 5 -m 50 -M 1}
+\end{center}
+
+Apesar dos bons resultados no rugby em \cite{bunker2021supervised}, as sequências obtidas deixaram a desejar
+quanto aplicadas ao futebol, independentemente da métrica usada. Em todos os
+casos, as sequências de jogadas obtidas eram muito redundantes, continham passes
+(0) em excesso ou não eram muito surpreendentes. Por exemplo, uma sequência de
+passes seguida por um cruzamento (7). Os arquivos de saída gerados podem ser
+obtidos
+\href{https://github.com/lframosferreira/projeto-ad/blob/main/results/supervised-sequential-pattern-rugby/results_xg.csv}{aqui}
+para o \textit{xG},
+\href{https://github.com/lframosferreira/projeto-ad/blob/main/results/supervised-sequential-pattern-rugby/results_binary.csv}{aqui}
+para o binário e
+\href{https://github.com/lframosferreira/projeto-ad/blob/main/results/supervised-sequential-pattern-rugby/results_vaep.csv}{aqui}
+para o VAEP.
+
+Uma possível explicação para os resultados encontrados é o fato de o futebol ser
+um esporte muito dinâmico e que, por essa natureza, exigiria outra abordagem
+para discretização dos dados, para além das sequências de ações. De fato, muitos
+gols são (e não são) marcados a partir de uma sequência de passes, por exemplo.
+Desse modo, uma abordagem que consiga mapear o campo de maneira mais sutil é
+necessária para que se possa realizar uma mineração de sequências usando o
+algoritmo proposto por \cite{bunker2021supervised}.
 
 \section{Resultados}
 
