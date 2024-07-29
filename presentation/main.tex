@@ -6,8 +6,10 @@
 \usepackage[utf8]{inputenc}
 
 \title{Mineração de dados aplicada à dados de evento no futebol}
-\author{Luis Felipe Ramos \and Igor Lacerda Faria da Silva \and Mateus Pimenta}
+\author{Luis Felipe Ramos \and Igor Lacerda Faria da Silva \and Matheus Tiago Pimenta de Souza}
 \date{2024-07-28}
+
+\captionsetup[figure]{labelformat=empty}% redefines the caption setup of the figures environment in the beamer class.
 
 \begin{document}
 
@@ -34,8 +36,8 @@
 \frametitle{Dados de súmula no futebol}
 \begin{figure}[H]
 \centering
-\includegraphics[width=\linewidth]{stat_1_optimized.png}
-\caption{OI}
+\includegraphics[width=\linewidth]{copa.jpg}
+\caption{Estatísticas da final da Copa do Mundo de 2022}
 \end{figure}
 \end{frame}
 
@@ -86,6 +88,22 @@ bodypart & A parte do corpo do jogador usada para a ação \\
 \end{frame}
 
 \begin{frame}
+    \frametitle{Distribuição dos tipos de ações}
+\begin{figure}[H]
+\centering
+\includegraphics[width=\linewidth]{../report/images/action_distribution.png}
+\end{figure}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Mapa de calor dos gols}
+\begin{figure}[H]
+\centering
+\includegraphics[width=\linewidth]{../report/images/goal_position_heatmap.png}
+\end{figure}
+\end{frame}
+
+\begin{frame}
 \frametitle{Objetivos}
 \framesubtitle{Descoberta de subgrupos}
 \begin{itemize}
@@ -113,7 +131,10 @@ bodypart & A parte do corpo do jogador usada para a ação \\
         \item Ângulo de chute
     \end{itemize}
 \end{itemize}
-POR CHUTE DE PERTO DE GOL PARA DEMONSTRAR
+\begin{figure}[H]
+\centering
+\includegraphics[width=\linewidth]{deivid.jpg}
+\end{figure}
 \end{frame}
 
 \begin{frame}
@@ -122,6 +143,10 @@ POR CHUTE DE PERTO DE GOL PARA DEMONSTRAR
     \item Ações valem mais do que apenas gols
     \item O quanto cada jogada contribui para o aumento da chance de gol e diminiuição da chance de tomar gol?
 \end{itemize}
+\begin{figure}[H]
+\centering
+\includegraphics[width=\linewidth]{vaep.png}
+\end{figure}
 \end{frame}
 
 \begin{frame}
@@ -135,9 +160,9 @@ POR CHUTE DE PERTO DE GOL PARA DEMONSTRAR
 \end{frame}
 
 \begin{frame}
-\frametitle{Conclusão}
+\frametitle{Fim}
 \begin{itemize}
-    \item Any questions?
+    \item Perguntas, comentários, etc 
 \end{itemize}
 \end{frame}
 
