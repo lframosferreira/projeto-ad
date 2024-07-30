@@ -89,6 +89,7 @@ um evento segundo o formato SPADL.
 
 \begin{table}[H]
 	\centering
+	\label{tab:atributosSPADL}
 	\begin{tabular}{|l|l|}
 		\hline
 		\textbf{Atributo} & \textbf{Descrição}
@@ -152,11 +153,14 @@ manipulação de \textit{dataframes} como
 uma vez que se tratam de ferramentas extremamente completas que facilitaram o
 desenvolvimento do projeto como um todo.
 
-Para aplicar os algoritmos de descobertas de subgrupos, foram utilizados os pacotes
-\href{https://pysubgroup.readthedocs.io/en/latest/}{\texttt{pysubgroup}} 
-e \href{https://github.com/antoniolopezmc/subgroups}{\texttt{subgroups}}, que
-fornecem uma aglomeração de algoritmos do estado da arte de descoberta de
-subgrupos em um formato simples e leve para serem utilizados.
+Para aplicar os algoritmos de descobertas de subgrupos, foi utilizado os pacote
+\href{https://pysubgroup.readthedocs.io/en/latest/}{\texttt{pysubgroup}}, que fornecem 
+uma aglomeração de algoritmos do estado da arte de descoberta de subgrupos em um formato simples 
+e leve para serem utilizados. Também foi utilizada a implementação do algoritmo 
+\href{https://github.com/HMProenca/SSDpp-numeric/tree/master}{\texttt{SSD++ para valores numéricos}},
+um dos métodos mais recentes utilizado nos artigos 
+\textit{Discovering outstanding subgroup lists for numeric targets using MDL}
+e \textit{Artigo de COVID visto em sala}.
 
 falar dos pacotes de mineração de seq aqui
 
@@ -392,14 +396,129 @@ distância média entre os passes da equipe.
 	\label{tab:average_distance_england}
 \end{table}
 
+
 \section{Extração de \textit{Features}}
 
-quais features usamos e qual target (paper original usou binario e xg, propomos
-usar vaep)
+O foco das análises desse trabalho foram em avaliar eventos que levaram à 
+chutes ao gol, na tentativa de tentar entender quais atributos que levam 
+(ou não) a pontuar no futebol. Dessa forma, o primeiro pré-processamento foi 
+filtrar os eventos de todas as partidas, para capturar as informações só
+do evento de chute, além de capturar outras informações.
+
+Mais especialmente, a partir dos atributos listados na \ref{tab:atributosSPADL}, 
+realizamos um  pré-processamento para computar métricas adicionais relevantes 
+para a nossa análise. Alguns dos valores por sí só já são relevantes e portanto 
+foram mantidos, como o nome do jogador, as localizações de onde a ação 
+começou (nesse caso, o chute) e qual parte do corpo foi usada. Outras métricas 
+foram calculadas, como distância percorrida da bola partindo do chute até o gol, 
+e o ângulo do chute relativo ao gol. Já outros atributos foram computadas com base 
+nos outros eventos que levaram ao chute: consideramos para a parte de SD desse 
+trabalho todos os eventos desde que o time que chutou tem a posse de bola, por 
+acreditar que tudo possa fazer parte da estratégia para chegar ao gol (e por ser 
+muito difícil definir a partir de qual ponto começou uma jogada que levou ao chute).
+Com os eventos que levaram a tentativa de marcar, computamos \textit{features} como 
+total de eventos, passes e dribles, velocidade da jogada e duração total, dentre 
+outros. Por fim, utilizamos a informação de avaliações (ranking) dos jogadores 
+nas partidas para complementar a análise. Todos os atributos utilizados estão 
+na tabela \ref{tab:atributosSD}.
+
+\begin{table}[H]
+	\centering
+	\label{tab:atributosSD}
+	\begin{tabular}{|l|l|}
+		\hline
+		\textbf{Atributo} & \textbf{Descrição}
+		\\
+		\hline
+		start\_x          & A localização x onde a ação começou 
+		\\
+		\hline
+		start\_y          & A localização y onde a ação começou
+		\\
+		\hline
+		num\_events       & Contagem total de eventos (ações) na jogada
+		\\
+		\hline
+		num\_passes        & Contagem total de passes na jogada 
+		\\
+		\hline
+		num\_dribles       & Contagem total de dribles na jogada 
+		\\
+		\hline
+		play\_duration      & Duração total da jogada 
+		\\
+		\hline
+		player\_rank        & Ranking do jogador 
+		\\
+		\hline
+		play\_distance      & Distância (euclidiana) total percorrida na 
+		jogada
+		\\
+		\hline
+		play\_mean\_distance\_to\_the\_goal  & Distância (euclidiana) 
+		média de cada jogada até o gol
+		\\
+		\hline
+		play\_std\_distance\_to\_the\_goal  & Distância percorrida 
+		nas jogadas em direção ao gol (considerando só o eixo x)
+		\\
+		\hline
+		play\_distance\_towards\_goal  & Desvio padrão da 
+		Distância (euclidiana) de cada jogada até o gol 
+		\\
+		\hline
+		bodypart\_name     & A parte do corpo do jogador usada para a
+		ação
+		\\
+		\hline
+		ratio\_distance  & Razão entre play\_distance e 
+		play\_distance\_towards\_goal
+		\\
+		\hline
+		total\_time\_per\_play  & Desvio padrão da 
+		Distância (euclidiana) de cada jogada até o gol 
+		\\
+		\hline
+		play\_duration  & Duração total das jogadas
+		\\
+		\hline
+		total\_time\_per\_play  & Média do tempo por jogada 
+		(razão entre play\_duration e num\_events) 
+		\\
+		\hline
+		play\_speed  & Razão entre play\_distance e play\_duration
+		\\
+		\hline
+		play\_speed\_towards\_goal  & Razão entre 
+		play\_distance\_towards\_goal e play\_duration
+		\\
+		\hline
+	\end{tabular}
+	\caption{Descrição dos dados no formato SPADL}
+\end{table}
 
 \section{Descoberta de Subgrupos}
 
-sd nos dados. usar pysubgroupigual no artigo domiguel
+Os dados disponibilizados pela \textit{Wyscout} possuem diversas granularidades: 
+temos 5 ligas de 5 países diferentes, cada uma com suas características, e cada 
+uma com seus respectivos times e estilo. Visando avaliar essas diferenças, a 
+análise de Descoberta de Subgrupos foi dividida em 3 partes: na primeira, 
+avaliamos os grupos descobertos de todo o dataset com os datasets de duas ligas 
+expecíficas (da Inglaterra e da Espanha), para ver se encontramos diferenças 
+entre uma liga VS toda a "população". Na segunda, escolhemos três times de uma 
+mesma liga, um que terminou no topo da tabela, outro no meio e outro que ficou 
+em último, para analisar se essa diferença de posição se reflete nos padrões. Por 
+fim, avaliamos todo o dataset com duas estratégias diferentes de SD, para avaliar 
+redundância e diversidade entre estratégias.
+
+Em todas avaliações foi utilizado a estratégia de \textit{Beam Search} 
+do pacote do \textit{pysubgroup}, com profundidade 3, buscando 100 subgrupos com 
+largura do Beam de 250. Na terceira, utilizamos o \textit{SSD++} com profundidade 
+3, largura do beam de 25 e máximo de regras 20 (o que gerou aproximadamente 100 
+resultados, para comparar com a outra abordagem). Também, em todas as etapas 
+foram avaliados todos os alvos, sendo se foi realmente gol ou não (binário), o xg 
+(binarizado na condição xG >= 0.5), e também a VAEP (numérico).
+
 
 \section{Mineração de Sequências}
 
@@ -509,7 +628,157 @@ algoritmo proposto por \cite{bunker2021supervised}.
 
 \section{Resultados}
 
-gfdfd
+\subsection{Avaliação geral}
+
+Na tabela \ref{tab:resultMetricas} são apresentados os resultados das métricas obtidas 
+em cada uma das etapas, considerando cada um dos algoritmos, dataset utilizado e os diferentes 
+alvos. Podemos ver que, de maneira geral, o \textit{expected Goals} (xG) foi o que desempenhou 
+pior dos três alvos, com tendências de WRAcc mais baixas, e coberturas também. O VAEP e o resultado 
+real (se foi gol ou não) tiveram comportamento bem semelhante, sendo mais altos ou baixo juntos 
+(indicando uma certa correlação). Por fim, apesar de algumas variações nos resultados, o SSD++ 
+demonstrou ser uma estratégia bem  mais abrangente no quesito de cobertura, ao custo de um WRAcc 
+menor. Esse resultado condiz com os resultados do artigo \ref{covid}, onde isso também foi percebido. 
+Vale ressaltar que apesar dos testes envolvendo Beam Search terem coberturas altas (pois foram 
+gerados 100 subgrupos), os resultados são bem redundantes (veja subseção 5.4).
+
+\begin{table}[H]
+	\centering
+	\label{tab:resultMetricas}
+	\begin{tabular}{|l|l|l|l|l|}
+		\hline
+		\textbf{Algoritmo} & \textbf{Dado} &  \textbf{Target} & 
+		\textbf{WRAcc do melhor} & \textbf{Cobertura Total}
+		\\
+		\hline
+		Beam Search & Todo dataset & Gol & 0.0312 & 0.5099 
+		\\
+		\hline
+		Beam Search & Todo dataset & xG & 0.0187 & 0.5046 
+		\\
+		\hline
+		Beam Search & Todo dataset & VAEP & 0.0307 & 0.5099 
+		\\
+		\hline
+		Beam Search & Inglaterra & Gol & 0.03192 & 0.4980 
+		\\
+		\hline
+		Beam Search & Inglaterra & xG & 0.0203 & 0.4933 
+		\\
+		\hline
+		Beam Search & Inglaterra & VAEP & 0.0317 & 0.4977
+		\\
+		\hline
+		Beam Search & Espanha & Gol & 0.0307 & 0.5110 
+		\\
+		\hline
+		Beam Search & Espanha & xG & 0.0195 & 0.3983 
+		\\
+		\hline
+		Beam Search & Espanha & VAEP & 0.0304 & 0.5120 
+		\\
+		\hline
+		Beam Search & Man City & Gol & 0.0483 & 0.5721 
+		\\
+		\hline
+		Beam Search & Man City & xG & 0.0303 & 0.4959 
+		\\
+		\hline
+		Beam Search & Man City & VAEP & 0.0487 & 0.5656 
+		\\
+		\hline
+		Beam Search & Newcastle & Gol & 0.0405 & 0.6561 
+		\\
+		\hline
+		Beam Search & Newcastle & xG & 0.0247 & 0.3878 
+		\\
+		\hline
+		Beam Search & Newcastle & VAEP & 0.0420 & 0.6561 
+		\\
+		\hline
+		Beam Search & West Bromwich & Gol & 0.0293 & 0.5499 
+		\\
+		\hline
+		Beam Search & West Bromwich & xG & 0.0307 & 0.3989 
+		\\
+		\hline
+		Beam Search & West Bromwich & VAEP & 0.0287 & 0.5254 
+		\\
+		\hline
+		SSD++ & Todo Dataset & Gol & 0.0164 & 0.7818 
+		\\
+		\hline
+		SSD++ & Todo Dataset & xG & 0.0117 & 0.9956
+		\\
+		\hline
+		SSD++ & Todo Dataset & VAEP & 0.0269 & 0.9177
+		\\
+		\hline
+	\end{tabular}
+	\caption{Descrição dos dados no formato SPADL}
+\end{table}
+
+
+\subsection{Avaliação entre ligas}
+
+Na tabela \ref{} temos alguns subgrupos de cada uma das análises dos datasets, 
+considerando os três diferentes alvos.
+
+\begin{table}[H]
+	\centering
+	\label{tab:resultMetricas}
+	\begin{tabular}{|l|l|l|l|l|}
+		\hline
+		\textbf{Dataset} & \textbf{Target} & 
+		\textbf{Subgrupo}
+		\\
+		\hline
+		Todo dataset & Gol & shot\_angle\_from\_goal>=0.60 AND shot\_distance\_from\_goal<11.26
+		\\
+		\hline
+		Todo dataset & xG & shot\_angle\_from\_goal>=0.60 AND shot\_distance\_from\_goal<11.26 AND 
+		start\_x>=96.60
+		\\
+		\hline
+		Todo dataset & VAEP &  num\_dribbles : [0:1[ AND shot\_angle\_from\_goal>=0.60 AND 
+		shot\_distance\_from\_goal<11.26
+		\\
+		\hline
+		Inglaterra & Gol & shot\_angle\_from\_goal>=0.61 AND shot\_distance\_from\_goal<11.26
+		\\
+		\hline
+		Inglaterra & xG & num\_dribbles : [0:1[ AND shot\_distance\_from\_goal<11.26 
+		AND start\_x>=96.60
+		\\
+		\hline
+		Inglaterra & VAEP & play\_duration<1.39 AND shot\_distance\_from\_goal<11.26 AND 
+		total\_time\_per\_play<0.65
+		\\
+		\hline
+		Espanha & Gol & shot\_angle\_from\_goal>=0.61 AND shot\_distance\_from\_goal<11.04 
+		AND start\_x>=96.60 
+		\\
+		\hline
+		Espanha & xG & shot\_angle\_from\_goal>=0.61
+		\\
+		\hline
+		Espanha & VAEP & play\_distance\_towards\_goal : [0.0:7.35[ AND ratio\_distance : 
+		[0.0:0.12[ AND shot\_distance\_from\_goal<11.04
+		\\
+		\hline
+	\end{tabular}
+	\caption{Descrição dos dados no formato SPADL}
+\end{table}
+
+Os subgrupos foram escolhidos dos top-10 considerando WRAcc, com exceção dos do alvo VAEP para os 
+datasets de ligas isoladas, para ter maior variedade. O mais perceptível é a redundância dos subgrupos, 
+onde todos são arranjos de cinco ou seis atributos principais. Contudo, podemos perceber pequenas 
+diferenças, como nas distâncias e ângulos para o chute. A medida que descemos as listas dos subgrupos 
+obtidos também temos mais variações, aparecendo features como ranking do jogador, quantidade de passes, 
+dentre outras. Outro fato interessante é de que as métricas concordam entre si, nos subgrupos e nos valores.
+
+\subsection{Avaliação entre times}
+
+\subsection{Avaliação entre algoritmos de SD}
 
 \section{Conclusão}
 
