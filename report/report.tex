@@ -4,11 +4,11 @@
 
 \usepackage[letterpaper,top=2cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
 \usepackage{amsmath}
+\usepackage{tabularx}
 \usepackage{graphicx}
 \usepackage[colorlinks=true, allcolors=blue]{hyperref}
 \usepackage{caption}
 \usepackage{float}
-\usepackage{csquotes}
 
 \sloppy
 
@@ -31,11 +31,6 @@
 		{\large 2024}
 	\end{center}
 \end{titlepage}
-
-\newpage
-\begin{quote}
-	fala zezé, bom dia cara
-\end{quote}
 
 \newpage
 \renewcommand{\contentsname}{Sumário}
@@ -89,7 +84,6 @@ um evento segundo o formato SPADL.
 
 \begin{table}[H]
 	\centering
-	\label{tab:atributosSPADL}
 	\begin{tabular}{|l|l|}
 		\hline
 		\textbf{Atributo} & \textbf{Descrição}
@@ -137,6 +131,7 @@ um evento segundo o formato SPADL.
 		\hline
 	\end{tabular}
 	\caption{Descrição dos dados no formato SPADL}
+	\label{tab:atributosSPADL}
 \end{table}
 
 \section{Implementação}
@@ -159,8 +154,8 @@ uma aglomeração de algoritmos do estado da arte de descoberta de subgrupos em 
 e leve para serem utilizados. Também foi utilizada a implementação do algoritmo 
 \href{https://github.com/HMProenca/SSDpp-numeric/tree/master}{\texttt{SSD++ para valores numéricos}},
 um dos métodos mais recentes utilizado nos artigos 
-\textit{Discovering outstanding subgroup lists for numeric targets using MDL}
-e \textit{Artigo de COVID visto em sala}.
+\cite{proencca2021discovering}
+e \cite{vagliano2023automated}.
 
 falar dos pacotes de mineração de seq aqui
 
@@ -423,78 +418,50 @@ nas partidas para complementar a análise. Todos os atributos utilizados estão
 na tabela \ref{tab:atributosSD}.
 
 \begin{table}[H]
-	\centering
-	\label{tab:atributosSD}
-	\begin{tabular}{|l|l|}
-		\hline
-		\textbf{Atributo} & \textbf{Descrição}
-		\\
-		\hline
-		start\_x          & A localização x onde a ação começou 
-		\\
-		\hline
-		start\_y          & A localização y onde a ação começou
-		\\
-		\hline
-		num\_events       & Contagem total de eventos (ações) na jogada
-		\\
-		\hline
-		num\_passes        & Contagem total de passes na jogada 
-		\\
-		\hline
-		num\_dribles       & Contagem total de dribles na jogada 
-		\\
-		\hline
-		play\_duration      & Duração total da jogada 
-		\\
-		\hline
-		player\_rank        & Ranking do jogador 
-		\\
-		\hline
-		play\_distance      & Distância (euclidiana) total percorrida na 
-		jogada
-		\\
-		\hline
-		play\_mean\_distance\_to\_the\_goal  & Distância (euclidiana) 
-		média de cada jogada até o gol
-		\\
-		\hline
-		play\_std\_distance\_to\_the\_goal  & Distância percorrida 
-		nas jogadas em direção ao gol (considerando só o eixo x)
-		\\
-		\hline
-		play\_distance\_towards\_goal  & Desvio padrão da 
-		Distância (euclidiana) de cada jogada até o gol 
-		\\
-		\hline
-		bodypart\_name     & A parte do corpo do jogador usada para a
-		ação
-		\\
-		\hline
-		ratio\_distance  & Razão entre play\_distance e 
-		play\_distance\_towards\_goal
-		\\
-		\hline
-		total\_time\_per\_play  & Desvio padrão da 
-		Distância (euclidiana) de cada jogada até o gol 
-		\\
-		\hline
-		play\_duration  & Duração total das jogadas
-		\\
-		\hline
-		total\_time\_per\_play  & Média do tempo por jogada 
-		(razão entre play\_duration e num\_events) 
-		\\
-		\hline
-		play\_speed  & Razão entre play\_distance e play\_duration
-		\\
-		\hline
-		play\_speed\_towards\_goal  & Razão entre 
-		play\_distance\_towards\_goal e play\_duration
-		\\
-		\hline
-	\end{tabular}
-	\caption{Descrição dos dados no formato SPADL}
+    \centering
+    \begin{tabularx}{\textwidth}{|l|X|}
+        \hline
+        \textbf{Atributo} & \textbf{Descrição} \\
+        \hline
+        start\_x & A localização x onde a ação começou \\
+        \hline
+        start\_y & A localização y onde a ação começou \\
+        \hline
+        num\_events & Contagem total de eventos (ações) na jogada \\
+        \hline
+        num\_passes & Contagem total de passes na jogada \\
+        \hline
+        num\_dribles & Contagem total de dribles na jogada \\
+        \hline
+        play\_duration & Duração total da jogada \\
+        \hline
+        player\_rank & Ranking do jogador \\
+        \hline
+        play\_distance & Distância (euclidiana) total percorrida na jogada \\
+        \hline
+        play\_mean\_distance\_to\_the\_goal & Distância (euclidiana) média de cada jogada até o gol \\
+        \hline
+        play\_std\_distance\_to\_the\_goal & Desvio padrão da distância (euclidiana) de cada jogada até o gol \\
+        \hline
+        play\_distance\_towards\_goal & Distância percorrida nas jogadas em direção ao gol (considerando só o eixo x) \\
+        \hline
+        bodypart\_name & A parte do corpo do jogador usada para a ação \\
+        \hline
+        ratio\_distance & Razão entre play\_distance e play\_distance\_towards\_goal \\
+        \hline
+        total\_time\_per\_play & Desvio padrão da distância (euclidiana) de cada jogada até o gol \\
+        \hline
+        play\_duration & Duração total das jogadas \\
+        \hline
+        total\_time\_per\_play & Média do tempo por jogada (razão entre play\_duration e num\_events) \\
+        \hline
+        play\_speed & Razão entre play\_distance e play\_duration \\
+        \hline
+        play\_speed\_towards\_goal & Razão entre play\_distance\_towards\_goal e play\_duration \\
+        \hline
+    \end{tabularx}
+    \caption{Atributos utilizados na descoberta de subgrupos}
+    \label{tab:atributosSD}
 \end{table}
 
 \section{Descoberta de Subgrupos}
@@ -583,7 +550,7 @@ tabela \ref{tab:id_to_action_map}.
 		18 & shot penalty
 		\\ \hline
 	\end{tabular}
-	\caption{Mapeamento de Ações para IDs.}
+	\caption{Mapeamento de Ações para IDs}
 	\label{tab:id_to_action_map}
 \end{table}
 
@@ -643,7 +610,6 @@ gerados 100 subgrupos), os resultados são bem redundantes (veja subseção 5.4)
 
 \begin{table}[H]
 	\centering
-	\label{tab:resultMetricas}
 	\begin{tabular}{|l|l|l|l|l|}
 		\hline
 		\textbf{Algoritmo} & \textbf{Dado} &  \textbf{Target} & 
@@ -715,58 +681,42 @@ gerados 100 subgrupos), os resultados são bem redundantes (veja subseção 5.4)
 		\hline
 	\end{tabular}
 	\caption{Descrição dos dados no formato SPADL}
+	\label{tab:resultMetricas}
 \end{table}
 
 
 \subsection{Avaliação entre ligas}
 
-Na tabela \ref{} temos alguns subgrupos de cada uma das análises dos datasets, 
+Na tabela \ref{tab:resultsSD} temos alguns subgrupos de cada uma das análises dos datasets, 
 considerando os três diferentes alvos.
 
 \begin{table}[H]
-	\centering
-	\label{tab:resultMetricas}
-	\begin{tabular}{|l|l|l|l|l|}
-		\hline
-		\textbf{Dataset} & \textbf{Target} & 
-		\textbf{Subgrupo}
-		\\
-		\hline
-		Todo dataset & Gol & shot\_angle\_from\_goal>=0.60 AND shot\_distance\_from\_goal<11.26
-		\\
-		\hline
-		Todo dataset & xG & shot\_angle\_from\_goal>=0.60 AND shot\_distance\_from\_goal<11.26 AND 
-		start\_x>=96.60
-		\\
-		\hline
-		Todo dataset & VAEP &  num\_dribbles : [0:1[ AND shot\_angle\_from\_goal>=0.60 AND 
-		shot\_distance\_from\_goal<11.26
-		\\
-		\hline
-		Inglaterra & Gol & shot\_angle\_from\_goal>=0.61 AND shot\_distance\_from\_goal<11.26
-		\\
-		\hline
-		Inglaterra & xG & num\_dribbles : [0:1[ AND shot\_distance\_from\_goal<11.26 
-		AND start\_x>=96.60
-		\\
-		\hline
-		Inglaterra & VAEP & play\_duration<1.39 AND shot\_distance\_from\_goal<11.26 AND 
-		total\_time\_per\_play<0.65
-		\\
-		\hline
-		Espanha & Gol & shot\_angle\_from\_goal>=0.61 AND shot\_distance\_from\_goal<11.04 
-		AND start\_x>=96.60 
-		\\
-		\hline
-		Espanha & xG & shot\_angle\_from\_goal>=0.61
-		\\
-		\hline
-		Espanha & VAEP & play\_distance\_towards\_goal : [0.0:7.35[ AND ratio\_distance : 
-		[0.0:0.12[ AND shot\_distance\_from\_goal<11.04
-		\\
-		\hline
-	\end{tabular}
-	\caption{Descrição dos dados no formato SPADL}
+    \centering
+    \begin{tabularx}{\textwidth}{|l|l|X|}
+        \hline
+        \textbf{Dataset} & \textbf{Target} & \textbf{Subgrupo} \\
+        \hline
+        Todo dataset & Gol & $ \text{shot\_angle\_from\_goal} \geq 0.60 \ \text{AND} \ \text{shot\_distance\_from\_goal} < 11.26 $ \\
+        \hline
+        Todo dataset & xG & $ \text{shot\_angle\_from\_goal} \geq 0.60 \ \text{AND} \ \text{shot\_distance\_from\_goal} < 11.26 \ \text{AND} \ \text{start\_x} \geq 96.60 $ \\
+        \hline
+        Todo dataset & VAEP & $ \text{num\_dribbles} : [0:1[ \ \text{AND} \ \text{shot\_angle\_from\_goal} \geq 0.60 \ \text{AND} \ \text{shot\_distance\_from\_goal} < 11.26 $ \\
+        \hline
+        Inglaterra & Gol & $ \text{shot\_angle\_from\_goal} \geq 0.61 \ \text{AND} \ \text{shot\_distance\_from\_goal} < 11.26 $ \\
+        \hline
+        Inglaterra & xG & $ \text{num\_dribbles} : [0:1[ \ \text{AND} \ \text{shot\_distance\_from\_goal} < 11.26 \ \text{AND} \ \text{start\_x} \geq 96.60 $ \\
+        \hline
+        Inglaterra & VAEP & $ \text{play\_duration} < 1.39 \ \text{AND} \ \text{shot\_distance\_from\_goal} < 11.26 \ \text{AND} \ \text{total\_time\_per\_play} < 0.65 $ \\
+        \hline
+        Espanha & Gol & $ \text{shot\_angle\_from\_goal} \geq 0.61 \ \text{AND} \ \text{shot\_distance\_from\_goal} < 11.04 \ \text{AND} \ \text{start\_x} \geq 96.60 $ \\
+        \hline
+        Espanha & xG & $ \text{shot\_angle\_from\_goal} \geq 0.61 $ \\
+        \hline
+        Espanha & VAEP & $ \text{play\_distance\_towards\_goal} : [0.0:7.35[ \ \text{AND} \ \text{ratio\_distance} : [0.0:0.12[ \ \text{AND} \ \text{shot\_distance\_from\_goal} < 11.04 $ \\
+        \hline
+    \end{tabularx}
+    \caption{Resultados para diferentes alvos}
+    \label{tab:resultsSD}
 \end{table}
 
 Os subgrupos foram escolhidos dos top-10 considerando WRAcc, com exceção dos do alvo VAEP para os 
