@@ -1,7 +1,9 @@
 \documentclass{beamer}
 \usepackage{graphicx}
+\usepackage{tabularx}
 \usepackage{caption}
 \usepackage{float}
+\usepackage{anyfontsize}
 \usepackage{multicol}
 \usepackage[utf8]{inputenc}
 
@@ -153,6 +155,7 @@ bodypart & A parte do corpo do jogador usada para a ação \\
 \frametitle{Descoberta de subgrupos - Extração de \textit{Features}}
     \begin{table}[H]
         \centering
+        \fontsize{6}{10}\selectfont % Definir tamanho da fonte específico
         \begin{tabularx}{\textwidth}{|l|X|}
             \hline
             \textbf{Atributo} & \textbf{Descrição} \\
@@ -194,7 +197,6 @@ bodypart & A parte do corpo do jogador usada para a ação \\
             play\_speed\_towards\_goal & Razão entre play\_distance\_towards\_goal e play\_duration \\
             \hline
         \end{tabularx}
-        \caption{Atributos utilizados na descoberta de subgrupos}
         \label{tab:atributosSD}
     \end{table}
 \end{frame}
@@ -221,6 +223,7 @@ bodypart & A parte do corpo do jogador usada para a ação \\
 \frametitle{Descoberta de subgrupos - Resultados Métricas}
     \begin{table}[H]
         \centering
+        \fontsize{6}{10}\selectfont % Definir tamanho da fonte específico
         \begin{tabular}{|l|l|l|l|l|}
             \hline
             \textbf{Algoritmo} & \textbf{Dado} &  \textbf{Target} & 
@@ -291,7 +294,6 @@ bodypart & A parte do corpo do jogador usada para a ação \\
             \\
             \hline
         \end{tabular}
-        \caption{Resultados das métricas para todas as avaliações}
         \label{tab:resultMetricas}
     \end{table}
 \end{frame}
@@ -300,6 +302,7 @@ bodypart & A parte do corpo do jogador usada para a ação \\
 \frametitle{Descoberta de subgrupos - Resultados entre Ligas}
 \begin{table}[H]
     \centering
+    \fontsize{6}{10}\selectfont % Definir tamanho da fonte específico
     \begin{tabularx}{\textwidth}{|l|l|X|}
         \hline
         \textbf{Dataset} & \textbf{Target} & \textbf{Subgrupo} \\
@@ -323,7 +326,6 @@ bodypart & A parte do corpo do jogador usada para a ação \\
         Espanha & VAEP & $ \text{play\_distance\_towards\_goal} : [0.0:7.35[ \ \text{AND} \ \text{ratio\_distance} : [0.0:0.12[ \ \text{AND} \ \text{shot\_distance\_from\_goal} < 11.04 $ \\
         \hline
     \end{tabularx}
-    \caption{Resultados das avaliações de diferentes ligas com todo o dataset}
     \label{tab:resultsSD}
 \end{table}
 \end{frame}
@@ -332,7 +334,7 @@ bodypart & A parte do corpo do jogador usada para a ação \\
 \frametitle{Descoberta de subgrupos - Resultados entre Times}
     \begin{table}[H]
         \centering
-        \small
+        \fontsize{6}{10}\selectfont % Definir tamanho da fonte específico
         \begin{tabularx}{\textwidth}{|l|l|X|}
             \hline
             \textbf{Dataset} & \textbf{Target} & \textbf{Subgrupo} \\
@@ -363,7 +365,7 @@ bodypart & A parte do corpo do jogador usada para a ação \\
 \frametitle{Descoberta de subgrupos - Resultados entre Algoritmos}
     \begin{table}[H]
         \centering
-        \small % Reduzir o tamanho da fonte para ajustar o texto
+        \fontsize{6}{10}\selectfont % Definir tamanho da fonte específico
         \begin{tabularx}{\textwidth}{|l|l|X|}
             \hline
             \textbf{Dataset} & \textbf{Target} & \textbf{Subgrupo} \\
@@ -393,7 +395,6 @@ bodypart & A parte do corpo do jogador usada para a ação \\
             SSD++ & VAEP & $ \text{shot\_angle\_from\_goal} \geq 0.56 \text{ AND } \text{play\_speed\_towards\_goal} \geq 1.52 \text{ AND } 12.39 \leq \text{play\_mean\_distance\_to\_the\_goal} \leq 28.09 $ \\
             \hline
         \end{tabularx}
-        \caption{Resultado das avaliações entre algoritmos}
         \label{tab:resultAlgoritms}
     \end{table}
 \end{frame}
