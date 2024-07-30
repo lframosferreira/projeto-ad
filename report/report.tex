@@ -604,9 +604,9 @@ pior dos três alvos, com tendências de WRAcc mais baixas, e coberturas também
 real (se foi gol ou não) tiveram comportamento bem semelhante, sendo mais altos ou baixo juntos 
 (indicando uma certa correlação). Por fim, apesar de algumas variações nos resultados, o SSD++ 
 demonstrou ser uma estratégia bem  mais abrangente no quesito de cobertura, ao custo de um WRAcc 
-menor. Esse resultado condiz com os resultados do artigo \ref{covid}, onde isso também foi percebido. 
-Vale ressaltar que apesar dos testes envolvendo Beam Search terem coberturas altas (pois foram 
-gerados 100 subgrupos), os resultados são bem redundantes (veja subseção 5.4).
+menor. Esse resultado condiz com os resultados do artigo \ref{vagliano2023automated}, onde isso 
+também foi percebido. Vale ressaltar que apesar dos testes envolvendo Beam Search terem coberturas 
+altas (pois foram gerados 100 subgrupos), os resultados são bem redundantes (veja subseção 5.4).
 
 \begin{table}[H]
 	\centering
@@ -676,11 +676,11 @@ gerados 100 subgrupos), os resultados são bem redundantes (veja subseção 5.4)
 		SSD++ & Todo Dataset & xG & 0.0117 & 0.9956
 		\\
 		\hline
-		SSD++ & Todo Dataset & VAEP & 0.0269 & 0.9177
+		SSD++ & Todo Dataset & VAEP & 0.0194 & 0.8114
 		\\
 		\hline
 	\end{tabular}
-	\caption{Descrição dos dados no formato SPADL}
+	\caption{Resultados das métricas para todas as avaliações}
 	\label{tab:resultMetricas}
 \end{table}
 
@@ -715,7 +715,7 @@ considerando os três diferentes alvos.
         Espanha & VAEP & $ \text{play\_distance\_towards\_goal} : [0.0:7.35[ \ \text{AND} \ \text{ratio\_distance} : [0.0:0.12[ \ \text{AND} \ \text{shot\_distance\_from\_goal} < 11.04 $ \\
         \hline
     \end{tabularx}
-    \caption{Resultados para diferentes alvos}
+    \caption{Resultados das avaliações de diferentes ligas com todo o dataset}
     \label{tab:resultsSD}
 \end{table}
 
@@ -728,11 +728,178 @@ dentre outras. Outro fato interessante é de que as métricas concordam entre si
 
 \subsection{Avaliação entre times}
 
+Para avaliar os times de uma mesma liga dentro do dataset, escolhemos a \textit{Premier League} (liga 
+inglesa) e três times baseados na sua colocação final, sendo eles o \textit{Manchester City} (1º na 
+temporada 17/18), \textit{Newcastle} (10º) e \textit{West Bromwich} (20º). O intuito foi avaliar se 
+as estratégias de SD conseguiriam identificar diferenças que possam indicar o motivo ou reflexos dele 
+que fizeram os times ficarem nessa posição. Na tabela \ref{tab:resultTimes} temos alguns resultados dos 
+top-30 subgrupos (com base em qualidade):
+
+\begin{table}[H]
+	\centering
+	\label{tab:resultTimes}
+	\begin{tabular}{|l|l|l|}
+		\hline
+		\textbf{Dataset} & \textbf{Target} & 
+		\textbf{Subgrupo}
+		\\
+		\hline
+		Man City & Gol & player\_rank : [0.02:0.03[ AND shot\_distance\_from\_goal $<$ 10.90 
+		AND start\_x $>$ 96.60
+		\\
+		\hline
+		Man City & xG & num\_dribbles : [0:2[ AND shot\_angle\_from\_goal $\geq$ 0.62 AND 
+		start\_x $\geq$ 96.60
+		\\
+		\hline
+		Man City & VAEP &  bodypart\_name =foot\_left AND shot\_distance\_from\_goal $<$ 11.03
+		\\
+		\hline
+		Newcastle & Gol & shot\_angle\_from\_goal $\geq$ 0.61 AND shot\_distance\_from\_goal $ < $ 11.04
+		\\
+		\hline
+		Newcastle & xG & num\_dribbles : [1:3[ AND start\_x $\geq$ 96.60 AND start\_y : [33.32:38.08[
+		\\
+		\hline
+		Newcastle & VAEP & bodypart\_name = foot\_right AND shot\_distance\_from\_goal $<$ 11.04
+		\\
+		\hline
+		West Bromwich & Gol & bodypart\_name = head/other AND 
+		shot\_distance\_from\_goal $<$ 10.52 AND start\_x $\geq$ 96.60 
+		\\
+		\hline
+		West Bromwich & xG & num\_dribbles : [0:2[ AND start\_x $\geq$ 96.60
+		\\
+		\hline
+		West Bromwich & VAEP & bodypart\_name = head/other AND 
+		play\_distance\_towards\_goal : [39.90:56.70[ AND start\_x $\geq$ 96.60
+		\\
+		\hline
+	\end{tabular}
+	\caption{Resultados das avaliações entre times}
+\end{table}
+
+Novamente, os diferentes alvos concordaram entre si, encontrando praticamente os mesmos subgrupos, em ordens 
+um pouco diferentes (especialmente no top-10). Podemos perceber diferenças interessante entre os times. 
+O Manchester City, por ser um time com mais jogadores caros e famosos, tem o atributo do ranking do jogador alto 
+(no dataset a maioria das notas são menores que 0.2, e ainda ponderamos e normalizamos pelos minutos jogados). 
+Também percebemos uma maior tendência de chutes com a perna esquerda, poucos dribles e ataques mais perto do gol. 
+Já para o Newcastle, temos mais chutes com a perna direita, e chutes de uma distância maior, o que pode indicar 
+maiores chutes de fora da área. Temos também uma taxa de dribles maior. Por fim, o West Bromwich tem um grande 
+destaque para lances de cabeça, o que pode indicar problemas de construção de jogadas, precisando assim recorrer 
+a cruzamentos e passes longos. 
+
+Avaliando além dos top-30 subgrupos, percebemos que a contagem de passes nas jogadas é menor no Newcastle, 
+sendo menor que 5, ressaltando a ideia dos chutes de fora da área, enquanto do Manchester City fica entre 6 e 18,
+e a do West Bromwich ficou entre 26 e 51. Considerando nossa abordagem de seleção dos eventos, concluímos que 
+o Man City é um time bem mais efetivo no ataque, já que tem mais chutes e com menos passes. Contudo, é um time que 
+toca bastante a bola, característica famosa do seu técnico. Já o WB se mostra menos efetivo na criação, tocando 
+muito a bola, o que pode indicar recuos e passes infrutíferos.
+
 \subsection{Avaliação entre algoritmos de SD}
+
+Até o momento, todas as análises foram realizadas com Beam Search, e foi percebida uma grande redundância 
+nos resultados. Visando combater esse fator, e também comparar a abordagem do Beam Search como um todo e a 
+granularidade de todo o dataset, aplicamos o algoritmo do SSD++. Alguns dos top-10 subgrupos encontrados 
+estão na tabela \ref{tab:resultAlgoritms}.
+
+\begin{table}[H]
+	\centering
+	\label{tab:resultAlgoritms}
+	\begin{tabular}{|l|l|l|}
+		\hline
+		\textbf{Dataset} & \textbf{Target} & 
+		\textbf{Subgrupo}
+		\\
+		\hline
+		Beam Search & Gol & start_x $\geq$ 96.60
+		\\
+		\hline
+		Beam Search & Gol & num\_dribbles : [0:1[ AND shot\_angle\_from\_goal $\geq$ 0.60 
+		AND shot\_distance\_from\_goal $<$ 11.26
+		\\
+		\hline
+		Beam Search & xG & start_x $\geq$ 96.60 AND start\_y : [31.96:37.40[
+		\\
+		\hline
+		Beam Search & xG & shot\_angle\_from\_goal $\geq$ 0.60 AND shot\_distance\_from\_goal $<$ 11.26
+		\\
+		\hline
+		Beam Search & VAEP & tart_x $\geq$ 96.60
+		\\
+		\hline
+		Beam Search & VAEP & num\_dribbles : [0:1[  AND shot\_distance\_from\_goal $<$ 11.26
+		\\
+		\hline
+		SSD++ & Gol & shot\_angle\_from_goal $\geq$ 0.5591 AND bodypart\_name = foot\_right 
+		AND start\_x $\geq$ 95.55
+		\\
+		\hline
+		SSD++ & Gol & player\_rank >= 0.016 AND 2.0 <= num\_passes <= 3.0 AND 
+		0.359 <= shot\_angle\_from\_goal <= 0.5591
+		\\
+		\hline
+		SSD++ & xG & 27.2 $\leq$ start_y $\leq$ 34.0 AND 4.64 $\leq$ play_speed $\leq$ 6.87 
+		AND num_dribbles $\geq$ 1.0
+		\\
+		\hline
+		SSD++ & xG & play\_speed $\geq$ 8.98 AND play\_duration $\geq$ 2.07 
+		AND 0.004 $\geq$ player\_rank $\geq$ 0.016
+		\\
+		\hline
+		SSD++ & VAEP & shot\_angle\_from\_goal $\geq$ 0.56 AND 
+		0.004 $\leq$ player\_rank $\leq$ 0.016 AND 0.93 $\leq$ total\_time\_per\_play $\leq$ 1.76
+		\\
+		\hline
+		SSD++ & VAEP & shot\_angle\_from\_goal $\geq$ 0.56 AND play\_speed\_towards\_goal $\geq$ 1.52 
+		AND 12.39 $\leq$ play\_mean\_distance\_to\_the\_goal $\leq$ 28.09
+		\\
+		\hline
+	\end{tabular}
+	\caption{Descrição dos dados no formato SPADL}
+\end{table}
+
+Avaliando os resultados, conseguimos notar indiretamente o resultado da métrica de cobertura 
+do SSD++ a partir dos vários atributos que não eram comummente vistos no Beam Search, como tempo 
+total por jogada, média e variança da distância para o gol, etc. Essas métricas também são bem 
+relevantes, e ajudam a dar mais informação sobre o comportamento das jogadas. Por exemplo, existem 
+muitas regras que limitam o ranking do jogador para baixo, o que pode ser relevante para uma contratação 
+de um atacante, onde se o restante do time consegue colocar esse jogador em determinada posição, terá uma 
+chance interessante de marcar, e pode não ser um jogador tão caro.
+
+Diferente do que foi visto em \ref{vagliano2023automated}, aqui não obtivemos métricas de qualidade negativas, 
+o que atribuímos ao nosso processamento de dados, que filtra as jogadas para só momentos de gols, dificultando 
+avaliações de lances de não-gol. Contudo, acreditamos que essa é também uma análise interessante, e está no radar 
+para trabalhos futuros. Por fim, comparando os dois algoritmos, o Beam Search se mostrou mais direto em suas 
+análises, focando sempre nos mesmos conjuntos de atributos que considerou mais importantes. Já o SSD++ trouxe 
+uma variedade bem maior de atributos, o que podem ser relevantes para análises mais específicas, com o preço de 
+uma qualidade média menor. Assim, acreditamos que a melhor abordagem é avaliar os dois (e outras técnicas) juntas, 
+para ter o melhor das duas vertentes.
 
 \section{Conclusão}
 
-fefre
+Neste trabalho avaliamos estratégias de Descoberta de Subgrupos e Mineração de Frequências para dados de ações 
+de futebol. Na parte de SD, apresentamos um framework de tratamento e extração de features, e realizamos uma 
+avaliação sistemática de diferentes granularidade do dataset, para diferentes alvos e diferentes estratégias.
+
+Do ponto de vista dos alvos, a VAEP se mostrou coerente com os resultados obtidos, em especial com o valor 
+binário de se o lance resultou em gol ou não. Usando a VAEP com Beam Search levou a praticamente os mesmos 
+subgrupos do xG e do Gol/Não Gol, já usando SSD++ houveram algumas variações no top-10 melhores grupos 
+(referente a qualidade), mas analisando todos os grupos também são parecidos. O xG levou a valores médios 
+de qualidade menor, mas isso não refletiu muito nos subgrupos em si. Acreditamos que isso se deve ao 
+cálculo e discretização do xG, que leva a menos incidências positivas do que o resultado da ação em si. 
+Contudo, isso levou a uma maior cobertura no SSD++. Concluímos portanto que nenhuma métrica se sobressai 
+em todos os quesitos, e reforçamos que todas sejam utilizadas para avaliações.
+
+Já no ponto de vista dos algoritmos, ocorreu o esperado do SSD++ ter subgrupos bem mais diversos e abrangentes 
+(levando a maior cobertura), ao ponto de ter subgrupos com qualidade menor. Acreditamos que os dois resultados 
+são complementares, e uma melhor análise deve levar em conta os dois resultados.
+
+Por fim, avaliando a utilidade dos subgrupos gerados, temos que os grupos do Beam Search são mais simples e 
+diretos, mas podem ter utilidade, em especial para comparar times distintos. O SSD++ traz análises mais exóticas 
+e com parâmetros que não costumam aparecer no Beam Search, o que pode ser útil para estratégias específicas. 
+Acreditamos que a melhor maneira é usar os dois modelos, para entender o quão bom é a análise exótica do SSD++, 
+e ter uma ideia geral com o Beam Search.
 
 \newpage
 \bibliographystyle{plain}
