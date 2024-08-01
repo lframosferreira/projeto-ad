@@ -18,3 +18,9 @@ Para converter os dados carregados para o formato SPADL, basta executar o comand
 
 <https://pypi.org/project/sequence-mining/>
 
+
+## Comentários da turma pós apresentação
+
+- Fazer análise de jogadas que concederam gols (juntar com os dados de gol, e fazer uma análise mais geral)
+- Ponderar a qualidade dos passes, considerando por exemplo a distância percorrida
+- Usar mais informações dos dados do campeonato, como histórico, posição atual na tabela, etc.
